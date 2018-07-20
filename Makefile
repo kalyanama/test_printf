@@ -6,11 +6,11 @@ CFLAGS =
 SRC_DIR := src/
 INC_DIR := inc/
 OBJ_DIR := obj/
-LIB_DIR := lib/
+LIB_DIR := ./
 
 LIBFT_DIR := $(LIB_DIR)libft/
-LIBFT_OBJ := $(LIBFT_DIR)obj/
-LIBFT_INC := $(LIBFT_DIR)inc/
+LIBFT_OBJ := $(LIBFT_DIR)/*.o
+LIBFT_INC := $(LIBFT_DIR)
  
 IFLAGS := -I $(INC_DIR) -I $(LIBFT_INC) 
 
@@ -30,12 +30,12 @@ utils.c
 
 
 OBJ := $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
-OBJ += $(wildcard $(LIBFT_OBJ)**/*.o)
+# OBJ += $(wildcard $(LIBFT_OBJ)*.o)
 
 all: $(NAME)
 
 $(NAME): $(LIBFT_OBJ) $(OBJ_DIR) $(OBJ)
-	@ $(AR) rc $(NAME) $(OBJ)
+	@ $(AR) rc $(NAME) $(OBJ) $(LIBFT_OBJ)
 	@ ranlib $(NAME)
 
 $(OBJ_DIR):

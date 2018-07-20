@@ -17,7 +17,7 @@
 # include <stdarg.h>
 # include <stdlib.h>
 # include <stdbool.h>
-# include "../lib/libft/inc/libft.h"
+# include "../libft/libft.h"
 # include <stdint.h>
 # include <limits.h>
 # include "colors.h"
