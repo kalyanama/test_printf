@@ -4,3 +4,4 @@ test
 main.c
 CMake*
 
+./libft/*.o
