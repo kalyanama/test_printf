@@ -1,0 +1,6 @@
+*obj/*
+*.a
+test
+main.c
+CMake*
+
