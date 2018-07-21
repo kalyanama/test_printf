@@ -1,12 +1,12 @@
 
 #include "../inc/printers.h"
 
-size_t get_numlen(uintmax_t usigned_num, short base, bool is_unsigned)
+size_t get_numlen(size_t usigned_num, short base, bool is_unsigned)
 {
 	size_t len;
-	intmax_t signed_num;
+	ssize_t signed_num;
 
-	signed_num = (intmax_t)usigned_num;
+	signed_num = (ssize_t)usigned_num;
 	len = 1;
 	if (is_unsigned)
 		while (usigned_num /= base)
@@ -17,23 +17,23 @@ size_t get_numlen(uintmax_t usigned_num, short base, bool is_unsigned)
 	return (len);
 }
 
-void print_num(uintmax_t unsigned_num, bool is_unsigned)
+void print_num(size_t unsigned_num, bool is_unsigned)
 {
-	intmax_t signed_num;
+	ssize_t signed_num;
 
-	signed_num = (intmax_t)unsigned_num;
+	signed_num = (ssize_t)unsigned_num;
 	if (is_unsigned) {
 		if (unsigned_num / 10)
 			print_num(unsigned_num / 10, is_unsigned);
-		ft_putchar((char) (unsigned_num % 10 + '0'));
+		ft_putchar((char)(unsigned_num % 10 + '0'));
 	}
 	else
 	{
 //        if (*sign)
 //            signed_num < 0 ? ft_putchar('-') : ft_putchar('+');
 		if (signed_num / 10)
-			print_num((uintmax_t) (signed_num / 10), is_unsigned);
-		ft_putchar((char) (FT_ABS(signed_num % 10) + '0'));
+			print_num((size_t)(signed_num / 10), is_unsigned);
+		ft_putchar((char)(FT_ABS(signed_num % 10) + '0'));
 	}
 }
 
@@ -45,9 +45,9 @@ int print_width(t_handler *h, size_t value_len) {
 		value_len += h->precision - value_len;
 	//TODO needed ?
 	value_len += h->flags.space_flag;
-	value_len += h->flags.force_sign;
-	value_len += h->specifier == OCTAL ? h->flags.hash : 0;
-	value_len += h->specifier == HEX_LOWER || h->specifier == HEX_UPPER ? h->flags.hash * 2 : 0;
+	value_len += h->flags.force_sign && h->specifier == S_DECIMAL;
+	value_len += h->flags.hash && h->specifier == OCTAL;
+	value_len += ((h->specifier == HEX_LOWER || h->specifier == HEX_UPPER) && h->flags.hash) * 2;
 	if(h->specifier != CHAR && h->specifier !=INVALID_SPECIFIER)
 		h->flags.pad_zero =
 			(h->precision == -1 && h->flags.pad_zero && !h->flags.pad_right);
@@ -74,7 +74,7 @@ int     print_precision(int prec, size_t value_len)
 	return (chars);
 }
 
-intmax_t manage_length_signed(intmax_t val, t_length length)
+ssize_t manage_length_signed(ssize_t val, t_length length)
 {
 	if (length == HH)
 		return ((char)val);
@@ -87,12 +87,12 @@ intmax_t manage_length_signed(intmax_t val, t_length length)
 	else if (length == J)
 		return ((intmax_t)val);
 	else if (length == Z)
-		return ((size_t)val);
+		return ((ssize_t)val);
 	else
 		return ((int)val);
 }
 
-uintmax_t manage_length_unsigned(uintmax_t val, t_length length)
+size_t manage_length_unsigned(size_t val, t_length length)
 {
 	if (length == HH)
 		return ((unsigned char)val);
@@ -112,12 +112,12 @@ uintmax_t manage_length_unsigned(uintmax_t val, t_length length)
 		return (val);
 }
 //TODO add to libft
-char *convert_base(uintmax_t unsgnd, int base, t_specifier specifier, bool is_unsigned)
+char *convert_base(size_t unsgnd, int base, t_specifier specifier, bool is_unsigned)
 {
 	char	*ret;
 	size_t		len;
 	char    a;
-	intmax_t sgnd;
+	ssize_t sgnd;
 
 	a = (char) (specifier == HEX_LOWER ? 'a' : 'A');
 	if (base < 2 || base > 16)
@@ -125,7 +125,7 @@ char *convert_base(uintmax_t unsgnd, int base, t_specifier specifier, bool is_un
 	len = get_numlen(unsgnd, (short) base, is_unsigned);
 	if(!(ret = ft_strnew(len + 1)))
 		return(NULL);
-	sgnd = (intmax_t)unsgnd;
+	sgnd = (ssize_t)unsgnd;
 	if (is_unsigned)
 		while (len--)
 		{

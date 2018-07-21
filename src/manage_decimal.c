@@ -14,14 +14,14 @@
 
 static int	print_signed(t_handler *h, va_list args)
 {
-	intmax_t	value;
+	ssize_t	value;
 	char		*result;
 	size_t		len;
 	int			chars;
 
 	chars = 0;
-	value = manage_length_signed(va_arg(args, intmax_t), h->length);
-	result = convert_base((uintmax_t)value,
+	value = manage_length_signed(va_arg(args, ssize_t), h->length);
+	result = convert_base((size_t)value,
 						DECIMAL_BASE, h->specifier, SIGNED_NUM);
 	len = ft_strlen(result) * check_null_value_and_prec(h->precision, &result);
 	h->flags.force_sign = h->flags.force_sign || value < 0;
@@ -41,13 +41,13 @@ static int	print_signed(t_handler *h, va_list args)
 
 static int	print_unsigned(t_handler *h, va_list args)
 {
-	uintmax_t	value;
+	size_t	value;
 	char		*result;
 	size_t		len;
 	int			chars;
 
 	chars = 0;
-	value = manage_length_unsigned(va_arg(args, uintmax_t), h->length);
+	value = manage_length_unsigned(va_arg(args, size_t), h->length);
 	result = convert_base(value, DECIMAL_BASE, h->specifier, UNSIGNED_NUM);
 	len = ft_strlen(result) * check_null_value_and_prec(h->precision, &result);
 	chars += print_value(h, result, len, false);

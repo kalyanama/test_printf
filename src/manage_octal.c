@@ -15,12 +15,12 @@
 int	print_octal(t_handler *handler, va_list args)
 {
 	int			chars_printed;
-	uintmax_t	value;
+	size_t	value;
 	char		*result;
 	size_t		len;
 
 	chars_printed = 0;
-	value = manage_length_unsigned(va_arg(args, uintmax_t), handler->length);
+	value = manage_length_unsigned(va_arg(args, size_t), handler->length);
 	if (!value && handler->precision)
 		handler->flags.hash = value != 0 && handler->flags.hash;
 	result = convert_base(value, OCTAL_BASE, handler->specifier, UNSIGNED_NUM);

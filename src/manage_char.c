@@ -17,7 +17,7 @@
 #define MASK3 240
 #define SIX_BITS(v) (((v) & 63) + 128)
 
-unsigned int get_max_bytes(unsigned int bits)
+static unsigned int wchar_max_bytes(unsigned int bits)
 {
 	if (bits <= 7 && MB_CUR_MAX >= 1)
 		return (1);
@@ -35,27 +35,27 @@ char * get_wchar(wchar_t value)
 
 	if (0 == value)
 		return ("\0");
-	bytes = get_max_bytes(count_bits((unsigned int)value));
+	bytes = wchar_max_bytes(count_bits((unsigned int) value));
 	ret = ft_memalloc(5);
 	if (bytes == 1)
-		ret[0] = (unsigned char) value;
+		ret[0] = (unsigned char)value;
 	else if (bytes == 2)
 	{
-		ret[0] = (unsigned char) (SIX_BITS(value));
-		ret[1] = (unsigned char) ((value >> 6) + MASK1);
+		ret[0] = (unsigned char)(SIX_BITS(value));
+		ret[1] = (unsigned char)((value >> 6) + MASK1);
 	}
 	else if (bytes == 3)
 	{
-		ret[0] = (unsigned char) (SIX_BITS(value));
-		ret[1] = (unsigned char) (SIX_BITS(value >> 6));
-		ret[2] = (unsigned char) ((value >> 12) + MASK2);
+		ret[0] = (unsigned char)(SIX_BITS(value));
+		ret[1] = (unsigned char)(SIX_BITS(value >> 6));
+		ret[2] = (unsigned char)((value >> 12) + MASK2);
 	}
 	else if (bytes == 4)
 	{
-		ret[0] = (unsigned char) (SIX_BITS(value));
-		ret[1] = (unsigned char) (SIX_BITS(value >> 6));
-		ret[2] = (unsigned char) (SIX_BITS(value >> 12));
-		ret[3] = (unsigned char) ((value >> 18) + MASK3);
+		ret[0] = (unsigned char)(SIX_BITS(value));
+		ret[1] = (unsigned char)(SIX_BITS(value >> 6));
+		ret[2] = (unsigned char)(SIX_BITS(value >> 12));
+		ret[3] = (unsigned char)((value >> 18) + MASK3);
 	}
 	return (ft_strrev((char *)ret));
 }

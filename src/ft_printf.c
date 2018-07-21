@@ -67,12 +67,10 @@ static int			ft_printf_core(const char *fmt, va_list ap)
 
 	chars_printed = 0;
 	while (*fmt)
-	{
 		if (*fmt == START_SPEC)
 		{
 			++fmt;
 			chars_printed += doformat(&fmt, ap);
-//			fmt--; // Kostyl
 		}
 		else
 		{
@@ -80,7 +78,6 @@ static int			ft_printf_core(const char *fmt, va_list ap)
 			chars_printed++;
 			fmt++;
 		}
-	}
 	return (chars_printed);
 }
 
