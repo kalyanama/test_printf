@@ -16,7 +16,6 @@
 #define MASK2 224
 #define MASK3 240
 #define SIX_BITS(v) (((v) & 63) + 128)
-
 char * get_wchar(wchar_t value)
 {
 	unsigned char *bytes;
@@ -26,22 +25,20 @@ char * get_wchar(wchar_t value)
 		return ("\0");
 	bits = count_bits((unsigned int)value);
 	bytes = ft_memalloc(5);
-    if (bits > MB_CUR_MAX)
-        bits = MB_CUR_MAX;
-	if (bits <= 7)
+	if (bits <= 7 && MB_CUR_MAX > 0)
 		bytes[0] = (unsigned char) value;
-	else if (bits > 7 && bits <= 11)
+	else if (bits > 7 && bits <= 11 && MB_CUR_MAX > 1)
 	{
 		bytes[0] = (unsigned char) (SIX_BITS(value));
 		bytes[1] = (unsigned char) ((value >> 6) + MASK1);
 	}
-	else if (bits > 11 && bits <= 16)
+	else if (bits > 11 && bits <= 16 && MB_CUR_MAX > 2)
 	{
 		bytes[0] = (unsigned char) (SIX_BITS(value));
 		bytes[1] = (unsigned char) (SIX_BITS(value >> 6));
 		bytes[2] = (unsigned char) ((value >> 12) + MASK2);
 	}
-	else if (bits > 16)
+	else if (bits > 16 && MB_CUR_MAX > 3)
 	{
 		bytes[0] = (unsigned char) (SIX_BITS(value));
 		bytes[1] = (unsigned char) (SIX_BITS(value >> 6));
