@@ -72,14 +72,14 @@ static int			ft_printf_core(const char *fmt, va_list ap)
 		{
 			++fmt;
 			chars_printed += doformat(&fmt, ap);
-			fmt--; // Kostyl
+//			fmt--; // Kostyl
 		}
 		else
 		{
 			ft_putchar(*fmt);
 			chars_printed++;
+			fmt++;
 		}
-		fmt++;
 	}
 	return (chars_printed);
 }

@@ -16,6 +16,7 @@ int	print_pointer(t_handler *curr, va_list args)
 {
 	int chars_printed;
 
+	//TODO remove length POINTER
 	curr->length = NONE;
 	curr->flags.hash = true;
 	chars_printed = print_hex(curr, args);

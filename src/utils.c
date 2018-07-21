@@ -43,6 +43,8 @@ int print_width(t_handler *h, size_t value_len) {
 	chars = 0;
 	if (h->precision > (int)value_len)
 		value_len += h->precision - value_len;
+	//TODO needed ?
+	value_len += h->flags.space_flag;
 	value_len += h->flags.force_sign;
 	value_len += h->specifier == OCTAL ? h->flags.hash : 0;
 	value_len += h->specifier == HEX_LOWER || h->specifier == HEX_UPPER ? h->flags.hash * 2 : 0;

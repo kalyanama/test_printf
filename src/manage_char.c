@@ -56,7 +56,7 @@ int	print_char(t_handler *curr, va_list args, char invalid_spec)
 
 
 	chars_printed = 0;
-	if (curr->length == L)
+	if (curr->length == L && curr->specifier == CHAR)
 		chars_printed += print_string(curr, args, false);
 	else
 	{

@@ -96,7 +96,7 @@ int print_string(t_handler *curr, va_list args, bool non_printable)
 
 	chars_printed = 0;
 	is_cut = false;
-	if (curr->length == L)
+	if (curr->length == L && (curr->specifier == STRING || curr->specifier == CHAR))
 		value = (curr->specifier == STRING ? get_wstr(va_arg(args, wchar_t *), curr->precision) : get_wchar(va_arg(args, wchar_t)));
 
 	else
