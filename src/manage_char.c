@@ -17,36 +17,47 @@
 #define MASK3 240
 #define SIX_BITS(v) (((v) & 63) + 128)
 
+unsigned int get_max_bytes(unsigned int bits)
+{
+	if (bits <= 7 && MB_CUR_MAX >= 1)
+		return (1);
+	else if (bits > 7 && bits <= 11 && MB_CUR_MAX >=2)
+		return (2);
+	else if (bits > 11 && bits <= 16 && MB_CUR_MAX >=3)
+		return (3);
+	else if (bits > 16 && MB_CUR_MAX >= 4)
+		return (4);
+}
 char * get_wchar(wchar_t value)
 {
-	unsigned char *bytes;
-	unsigned int bits;
+	unsigned char *ret;
+	unsigned int bytes;
 
 	if (0 == value)
 		return ("\0");
-	bits = count_bits((unsigned int)value);
-	bytes = ft_memalloc(5);
-	if (bits <= 7)
-		bytes[0] = (unsigned char) value;
-	else if (bits > 7 && bits <= 11 && MB_CUR_MAX > 1)
+	bytes = get_max_bytes(count_bits((unsigned int)value));
+	ret = ft_memalloc(5);
+	if (bytes == 1)
+		ret[0] = (unsigned char) value;
+	else if (bytes == 2)
 	{
-		bytes[0] = (unsigned char) (SIX_BITS(value));
-		bytes[1] = (unsigned char) ((value >> 6) + MASK1);
+		ret[0] = (unsigned char) (SIX_BITS(value));
+		ret[1] = (unsigned char) ((value >> 6) + MASK1);
 	}
-	else if (bits > 11 && bits <= 16 && MB_CUR_MAX > 2)
+	else if (bytes == 3)
 	{
-		bytes[0] = (unsigned char) (SIX_BITS(value));
-		bytes[1] = (unsigned char) (SIX_BITS(value >> 6));
-		bytes[2] = (unsigned char) ((value >> 12) + MASK2);
+		ret[0] = (unsigned char) (SIX_BITS(value));
+		ret[1] = (unsigned char) (SIX_BITS(value >> 6));
+		ret[2] = (unsigned char) ((value >> 12) + MASK2);
 	}
-	else if (bits > 16 && MB_CUR_MAX > 3)
+	else if (bytes == 4)
 	{
-		bytes[0] = (unsigned char) (SIX_BITS(value));
-		bytes[1] = (unsigned char) (SIX_BITS(value >> 6));
-		bytes[2] = (unsigned char) (SIX_BITS(value >> 12));
-		bytes[3] = (unsigned char) ((value >> 18) + MASK3);
+		ret[0] = (unsigned char) (SIX_BITS(value));
+		ret[1] = (unsigned char) (SIX_BITS(value >> 6));
+		ret[2] = (unsigned char) (SIX_BITS(value >> 12));
+		ret[3] = (unsigned char) ((value >> 18) + MASK3);
 	}
-	return (ft_strrev((char *)bytes));
+	return (ft_strrev((char *)ret));
 }
 
 int	print_char(t_handler *curr, va_list args, char invalid_spec)
@@ -56,7 +67,7 @@ int	print_char(t_handler *curr, va_list args, char invalid_spec)
 
 
 	chars_printed = 0;
-	if (curr->length == L && curr->specifier == CHAR)
+	if (curr->length == L && curr->specifier == CHAR && MB_CUR_MAX != 1)
 		chars_printed += print_string(curr, args, false);
 	else
 	{
