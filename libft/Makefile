@@ -27,7 +27,7 @@ all: $(NAME)
 $(NAME):
 	@$(CC) $(FLAGS) $(FUNCT)
 	@ar rc $(NAME) $(OBJ)
-	@anlib $(NAME)
+	@ranlib $(NAME)
 
 clean:
 	@$(RM) $(OBJ)
