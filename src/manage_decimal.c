@@ -25,15 +25,6 @@ static int	print_signed(t_handler *h, va_list args)
 						DECIMAL_BASE, h->specifier, SIGNED_NUM);
 	len = ft_strlen(result) * check_null_value_and_prec(h->precision, &result);
 	h->flags.force_sign = h->flags.force_sign || value < 0;
-	//TODO correct space flag in d management
-	h->flags.space_flag = h->flags.space_flag
-						&& !h->flags.force_sign;
-	if (h->flags.space_flag)
-	{
-		ft_putchar(' ');
-//		h->width -= h->flags.space_flag;
-	}
-	chars += h->flags.space_flag;
 	chars += print_value(h, result, len, value < 0);
 	ft_strdel(&result);
 	return (chars);

@@ -10,12 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <form.h>
 #include "../inc/parsers.h"
 
 void	parse_width(const char **fmt, t_handler *handler, va_list args)
 {
-	if (WIDTH(**fmt))
-	{
 		if (**fmt == '*')
 		{
 			++*fmt;
@@ -29,33 +28,29 @@ void	parse_width(const char **fmt, t_handler *handler, va_list args)
 			handler->width = ft_atoi(*fmt);
 			*fmt += ft_numlen(handler->width);
 		}
-	}
 }
 
-void	parse_precision(const char **fmt, t_handler *handler, va_list args)
+void parse_precision(const char **fmt, t_handler *handler, va_list args)
 {
-	bool sign;
-
-	if (PREC(**fmt))
+	++*fmt;
+	if (**fmt == '*')
 	{
 		++*fmt;
-		if (**fmt == '*')
-		{
+		handler->precision = va_arg(args, int);
+		if (handler->precision < 0)
+			handler->precision = -1;
+	}
+	else
+	{
+		while (**fmt == '0')
 			++*fmt;
-			handler->precision = va_arg(args, int);
-			if (handler->precision < 0)
-				handler->precision = -1;
-		}
-		else if (ft_isdigit(**fmt))
+		if (ft_isdigit(**fmt))
 		{
 			handler->precision = ft_atoi(*fmt);
-			sign = handler->precision < 0;
-			*fmt += ft_numlen(handler->precision) + sign;
+			*fmt += ft_numlen(handler->precision) + (handler->precision < 0);
 		}
 		else
 			handler->precision = 0;
-		if (handler->precision > 0)
-			handler->flags.pad_zero = false;
 	}
 }
 
@@ -89,10 +84,10 @@ void	parse_length(const char **fmt, t_handler *handler)
 		}
 		else if (SIZE(**fmt))
 		{
-			if (**fmt == 'h' && (cmp_len(handler->length, H) > 0))
-				handler->length = H;
-			else if (**fmt == 'l' && (cmp_len(handler->length, L) > 0))
-				handler->length = L;
+			if (**fmt == 'h' && (cmp_len(handler->length, H) >= 0))
+				handler->length = handler->length == H ? HH : H;
+			else if (**fmt == 'l' && (cmp_len(handler->length, L) >= 0))
+				handler->length = handler->length == L ? LL : L;
 			else if (**fmt == 'j' && (cmp_len(handler->length, J) > 0))
 				handler->length = J;
 			else if (**fmt == 'z' && (cmp_len(handler->length, Z) > 0))

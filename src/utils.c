@@ -41,16 +41,12 @@ int print_width(t_handler *h, size_t value_len) {
 	int chars;
 
 	chars = 0;
-	if (h->precision > (int)value_len)
+	if (h->precision > (int)value_len && h->specifier != CHAR)
 		value_len += h->precision - value_len;
-	//TODO needed ?
-	value_len += h->flags.space_flag;
-	value_len += h->flags.force_sign && h->specifier == S_DECIMAL;
+	value_len += (h->flags.force_sign || h->flags.space_flag) && h->specifier == S_DECIMAL;
 	value_len += h->flags.hash && h->specifier == OCTAL;
 	value_len += ((h->specifier == HEX_LOWER || h->specifier == HEX_UPPER) && h->flags.hash) * 2;
-	if(h->specifier != CHAR && h->specifier !=INVALID_SPECIFIER)
-		h->flags.pad_zero =
-			(h->precision == -1 && h->flags.pad_zero && !h->flags.pad_right);
+	h->flags.pad_zero *= !(h->flags.pad_right);
 	while(h->width > value_len)
 	{
 		ft_putchar((char) (h->flags.pad_zero ? '0' : ' '));
@@ -176,6 +172,11 @@ int print_prefix(t_handler *h, bool neg_sign)
 			ft_putchar('+');
 		return (1);
 	}
+	else if (h->flags.space_flag && h->specifier == S_DECIMAL)
+	{
+		ft_putchar(' ');
+		return (1);
+	}
 	return (0);
 }
 
@@ -185,6 +186,9 @@ int print_value(t_handler *h, char *result, size_t len, bool neg_sign)
 
 	chars_printed = 0;
 	chars_printed += (int) len;
+	if (h->specifier == S_DECIMAL || h->specifier == U_DECIMAL || h->specifier == OCTAL ||
+		h->specifier == HEX_LOWER || h->specifier == HEX_UPPER ||h->specifier == BINARY)
+		h->flags.pad_zero *= h->precision == -1;
 	if(h->flags.pad_right)
 	{
 		chars_printed += print_prefix(h, neg_sign);

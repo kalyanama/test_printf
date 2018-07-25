@@ -105,12 +105,15 @@ int print_string(t_handler *curr, va_list args, bool non_printable)
 		value = non_printable ? show_non_printable(value) : value;
 	}
 	if ((value == NULL) && curr->precision)
-		return ((int) (write(STDOUT_FILENO, "(null)", ft_strlen("(null)"))));
+	{
+		value = ft_strndup("(null)", curr->precision == -1 ? ft_strlen("(null)"): curr->precision);
+		is_cut =  true;
+	}
 	if (ft_strequ(value, "\0") && curr->specifier == CHAR)
 		return (int)write(STDOUT_FILENO, "\0", 1);
 	len = value ? ft_strlen(value) : 0;
 	curr->precision *= len != 0;
-	if (curr->precision != -1 && curr->precision < (int) len)
+	if (curr->precision != -1 && curr->precision < (int) len && !is_cut)
 	{
 		value = ft_strndup(value, curr->precision);
 		len -= len - curr->precision;
