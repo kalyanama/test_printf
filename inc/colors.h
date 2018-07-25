@@ -1,7 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   colors.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmalanch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/07/25 18:06:48 by mmalanch          #+#    #+#             */
+/*   Updated: 2018/07/25 18:06:49 by mmalanch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef COLORS_H
 # define COLORS_H
 
-//Regular text
+/*
+** Regular text
+*/
 # define BLK "\x1B[0;30m"
 # define RED "\x1B[0;31m"
 # define GRN "\x1B[0;32m"
@@ -10,7 +24,9 @@
 # define CYN "\x1B[0;36m"
 # define WHT "\x1B[0;37m"
 
-//Regular bold text
+/*
+** Regular bold text
+*/
 # define BBLK "\x1B[1;30m"
 # define BRED "\x1B[1;31m"
 # define BGRN "\x1B[1;32m"
@@ -20,7 +36,9 @@
 # define BCYN "\x1B[1;36m"
 # define BWHT "\x1B[1;37m"
 
-//Regular underline text
+/*
+** Regular underline text
+*/
 # define UBLK "\x1B[4;30m"
 # define URED "\x1B[4;31m"
 # define UGRN "\x1B[4;32m"
@@ -30,7 +48,9 @@
 # define UCYN "\x1B[4;36m"
 # define UWHT "\x1B[4;37m"
 
-//Regular background
+/*
+** Regular background
+*/
 # define BLKB "\x1B[40m"
 # define REDB "\x1B[41m"
 # define GRNB "\x1B[42m"
@@ -40,7 +60,9 @@
 # define CYNB "\x1B[46m"
 # define WHTB "\x1B[47m"
 
-//High intensty background 
+/*
+** High intensty background
+*/
 # define BLKHB "\x1B[0;100m"
 # define REDHB "\x1B[0;101m"
 # define GRNHB "\x1B[0;102m"
@@ -50,7 +72,9 @@
 # define CYNHB "\x1B[0;106m"
 # define WHTHB "\x1B[0;107m"
 
-//High intensty text
+/*
+** High intensty text
+*/
 # define HBLK "\x1B[0;90m"
 # define HRED "\x1B[0;91m"
 # define HGRN "\x1B[0;92m"
@@ -60,7 +84,9 @@
 # define HCYN "\x1B[0;96m"
 # define HWHT "\x1B[0;97m"
 
-//Bold high intensity text
+/*
+** Bold high intensity text
+*/
 # define BHBLK "\x1B[1;90m"
 # define BHRED "\x1B[1;91m"
 # define BHGRN "\x1B[1;92m"
@@ -70,7 +96,9 @@
 # define BHCYN "\x1B[1;96m"
 # define BHWHT "\x1B[1;97m"
 
-//Reset
-# define reset "\x1B[0m"
+/*
+** Reset
+*/
+# define RESET "\x1B[0m"
 
 #endif

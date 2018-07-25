@@ -25,13 +25,13 @@
 
 typedef enum	e_length
 {
-	DEFAULT_LENGTH, HH, H, L, LL, J, Z, NONE
+	DEFAULT_LENGTH, HH, H, L, LL, J, Z
 }				t_length;
 
 typedef enum	e_specifier
 {
-	INVALID_SPECIFIER, BINARY,S_DECIMAL, U_DECIMAL, OCTAL, HEX_LOWER, HEX_UPPER,
-	CHAR, STRING, POINTER, PERCENT, NON_PRINTABLE
+	INVALID_SPECIFIER, BINARY, S_DECIMAL, U_DECIMAL, OCTAL,
+	HEX_LOWER, HEX_UPPER, CHAR, STRING, POINTER, PERCENT, NON_PRINTABLE
 }				t_specifier;
 
 struct			s_flags
@@ -53,7 +53,6 @@ typedef struct	s_handler
 }				t_handler;
 
 int				ft_printf(const char *format, ...);
-//bool			valid_handler(t_handler *handler);
 int				print_arg(t_handler *handler, va_list args, const char **fmt);
 
 #endif

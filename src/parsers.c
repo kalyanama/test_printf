@@ -15,22 +15,22 @@
 
 void	parse_width(const char **fmt, t_handler *handler, va_list args)
 {
-		if (**fmt == '*')
-		{
-			++*fmt;
-			handler->width = va_arg(args, int);
-			if (handler->width < 0)
-				handler->flags.pad_right = true;
-			handler->width = FT_ABS(handler->width);
-		}
-		else
-		{
-			handler->width = ft_atoi(*fmt);
-			*fmt += ft_numlen(handler->width);
-		}
+	if (**fmt == '*')
+	{
+		++*fmt;
+		handler->width = va_arg(args, int);
+		if (handler->width < 0)
+			handler->flags.pad_right = true;
+		handler->width = FT_ABS(handler->width);
+	}
+	else
+	{
+		handler->width = ft_atoi(*fmt);
+		*fmt += ft_numlen(handler->width);
+	}
 }
 
-void parse_precision(const char **fmt, t_handler *handler, va_list args)
+void	parse_precision(const char **fmt, t_handler *handler, va_list args)
 {
 	++*fmt;
 	if (**fmt == '*')
@@ -71,31 +71,32 @@ void	parse_flags(const char **fmt, t_handler *handler)
 
 void	parse_length(const char **fmt, t_handler *handler)
 {
-		if (**fmt == 'h' && *(*fmt + 1) == 'h')
-		{	if (cmp_len(handler->length, HH) > 0)
-				handler->length = HH;
-			*fmt += 2;
-		}
-		else if (**fmt == 'l' && *(*fmt + 1) == 'l')
-		{
-			if (cmp_len(handler->length, LL) > 0)
-				handler->length = LL;
-			*fmt += 2;
-		}
-		else if (SIZE(**fmt))
-		{
-			if (**fmt == 'h' && (cmp_len(handler->length, H) >= 0))
-				handler->length = handler->length == H ? HH : H;
-			else if (**fmt == 'l' && (cmp_len(handler->length, L) >= 0))
-				handler->length = handler->length == L ? LL : L;
-			else if (**fmt == 'j' && (cmp_len(handler->length, J) > 0))
-				handler->length = J;
-			else if (**fmt == 'z' && (cmp_len(handler->length, Z) > 0))
-				handler->length = Z;
-			(*fmt)++;
-		}
-		else
-			handler->length = DEFAULT_LENGTH;
+	if (**fmt == 'h' && *(*fmt + 1) == 'h')
+	{
+		if (cmp_len(handler->length, HH) > 0)
+			handler->length = HH;
+		*fmt += 2;
+	}
+	else if (**fmt == 'l' && *(*fmt + 1) == 'l')
+	{
+		if (cmp_len(handler->length, LL) > 0)
+			handler->length = LL;
+		*fmt += 2;
+	}
+	else if (SIZE(**fmt))
+	{
+		if (**fmt == 'h' && (cmp_len(handler->length, H) >= 0))
+			handler->length = handler->length == H ? HH : H;
+		else if (**fmt == 'l' && (cmp_len(handler->length, L) >= 0))
+			handler->length = handler->length == L ? LL : L;
+		else if (**fmt == 'j' && (cmp_len(handler->length, J) > 0))
+			handler->length = J;
+		else if (**fmt == 'z' && (cmp_len(handler->length, Z) > 0))
+			handler->length = Z;
+		(*fmt)++;
+	}
+	else
+		handler->length = DEFAULT_LENGTH;
 }
 
 void	parse_specifier(const char **fmt, t_handler *handler)
@@ -130,6 +131,5 @@ void	parse_specifier(const char **fmt, t_handler *handler)
 		(*fmt)++;
 }
 
-/*Norme: ./parsers.c
-Error (line 80): function parse_length has 29 lines
-*/
+// Error (line 72): function parse_length has 26 lines
+// Error (line 102): function parse_specifier has 28 lines

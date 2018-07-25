@@ -12,7 +12,7 @@
 
 #include "../inc/printers.h"
 
-static char *get_char(const int code, char *buffer)
+static char	*get_char(const int code, char *buffer)
 {
 	if (code == 8)
 		ft_strcpy(buffer, "BS");
@@ -31,10 +31,10 @@ static char *get_char(const int code, char *buffer)
 	}
 	else
 		buffer[0] = (char)code;
-	return buffer;
+	return (buffer);
 }
 
-char *show_non_printable(const char *str)
+char		*show_non_printable(const char *str)
 {
 	char *buf;
 	char *new;
@@ -54,7 +54,7 @@ char *show_non_printable(const char *str)
 	return (new);
 }
 
-char *get_wstr(wchar_t *value, int precision)
+char		*get_wstr(wchar_t *value, int precision)
 {
 	char *res;
 	char *to_free_res;
@@ -75,7 +75,7 @@ char *get_wstr(wchar_t *value, int precision)
 			if ((precision < 0))
 			{
 				ft_strdel(&to_free_wchar);
-				break;
+				break ;
 			}
 		}
 		res = ft_strjoin(res, wchar);
@@ -87,33 +87,33 @@ char *get_wstr(wchar_t *value, int precision)
 	return (res);
 }
 
-int print_string(t_handler *h, va_list args, bool non_printable)
+int			print_string(t_handler *h, va_list args, bool non_printable)
 {
-	int chars_printed;
-	char *value;
-	size_t len;
-	bool is_cut;
+	int		chars_printed;
+	char	*value;
+	size_t	len;
+	bool	is_cut;
 
 	chars_printed = 0;
 	is_cut = false;
 	if (h->length == L && (h->specifier == STRING || h->specifier == CHAR))
-		value = (h->specifier == STRING ? get_wstr(va_arg(args, wchar_t *), h->precision)
-										: get_wchar(va_arg(args, wchar_t)));
+		value = (h->specifier == STRING ?
+			get_wstr(va_arg(args, wchar_t *), h->precision) :
+			get_wchar(va_arg(args, wchar_t)));
 	else
 	{
 		value = va_arg(args, char *);
 		value = non_printable ? show_non_printable(value) : value;
 	}
-	if ((value == NULL) && h->precision)
-	{
-		value = ft_strndup("(null)", h->precision == -1 ? ft_strlen("(null)"): h->precision);
-		is_cut =  true;
-	}
+	if ((is_cut = (value == NULL && h->precision)))
+		value = ft_strndup("(null)", h->precision == -1 ?
+			ft_strlen("(null)") : h->precision);
 	if (ft_strequ(value, "\0") && h->specifier == CHAR)
 		return (int)write(STDOUT_FILENO, "\0", 1);
 	len = value ? ft_strlen(value) : 0;
 	h->precision *= len != 0;
-	if (h->precision != -1 && h->precision < (int) len && !is_cut && !(h->specifier == CHAR))
+	if (h->precision != -1 && h->precision < (int)len
+		&& !is_cut && !(h->specifier == CHAR))
 	{
 		value = ft_strndup(value, h->precision);
 		len -= len - h->precision;
@@ -121,8 +121,11 @@ int print_string(t_handler *h, va_list args, bool non_printable)
 	}
 	else
 		h->precision = -1;
-	chars_printed +=  print_value(h, value, len, false);
+	chars_printed += print_value(h, value, len, false);
 	if (is_cut || non_printable || h->length == L)
 		ft_strdel(&value);
 	return (chars_printed);
 }
+
+//Error (line 57): function get_wstr has 29 lines
+//Error (line 90): function print_string has 36 lines

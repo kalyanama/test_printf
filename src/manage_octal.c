@@ -15,7 +15,7 @@
 int	print_octal(t_handler *handler, va_list args)
 {
 	int			chars_printed;
-	size_t	value;
+	size_t		value;
 	char		*result;
 	size_t		len;
 
@@ -24,8 +24,7 @@ int	print_octal(t_handler *handler, va_list args)
 	if (!value && handler->precision)
 		handler->flags.hash = value != 0 && handler->flags.hash;
 	result = convert_base(value, OCTAL_BASE, handler->specifier, UNSIGNED_NUM);
-	len = ft_strlen(result) * check_val_prec(handler->precision,
-											 &result);
+	len = ft_strlen(result) * check_val_prec(handler->precision, &result);
 	//fresh kostyl
 	if (handler->precision > (int)len)
 		handler->flags.hash = false;
@@ -33,3 +32,5 @@ int	print_octal(t_handler *handler, va_list args)
 	ft_strdel(&result);
 	return (chars_printed);
 }
+
+//Error (line 28): C++ comment

@@ -17,25 +17,26 @@
 #define MASK3 240
 #define SIX_BITS(v) (((v) & 63) + 128)
 
-static unsigned int wchar_max_bytes(unsigned int bits)
+static unsigned int	wchar_max_bytes(unsigned int bits)
 {
 	if (bits <= 7 && MB_CUR_MAX >= 1)
 		return (1);
-	else if (bits > 7 && bits <= 11 && MB_CUR_MAX >=2)
+	else if (bits > 7 && bits <= 11 && MB_CUR_MAX >= 2)
 		return (2);
-	else if (bits > 11 && bits <= 16 && MB_CUR_MAX >=3)
+	else if (bits > 11 && bits <= 16 && MB_CUR_MAX >= 3)
 		return (3);
 	else
 		return (4);
 }
-char * get_wchar(wchar_t value)
+
+char				*get_wchar(wchar_t value)
 {
-	unsigned char *ret;
-	unsigned int bytes;
+	unsigned char	*ret;
+	unsigned int	bytes;
 
 	if (0 == value)
 		return ("\0");
-	bytes = wchar_max_bytes(count_bits((unsigned int) value));
+	bytes = wchar_max_bytes(count_bits((unsigned int)value));
 	ret = ft_memalloc(5);
 	if (bytes == 1)
 		ret[0] = (unsigned char)value;
@@ -60,11 +61,10 @@ char * get_wchar(wchar_t value)
 	return (ft_strrev((char *)ret));
 }
 
-int	print_char(t_handler *curr, va_list args, char invalid_spec)
+int					print_char(t_handler *curr, va_list args, char invalid_spec)
 {
 	int		chars_printed;
 	char	value;
-
 
 	chars_printed = 0;
 	if (curr->length == L && curr->specifier == CHAR && MB_CUR_MAX != 1)
@@ -87,3 +87,6 @@ int	print_char(t_handler *curr, va_list args, char invalid_spec)
 	}
 	return (chars_printed);
 }
+
+//Norme: ./manage_char.c
+//Error (line 32): function get_wchar has 28 lines

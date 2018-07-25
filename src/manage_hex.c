@@ -15,7 +15,7 @@
 int	print_hex(t_handler *handler, va_list args)
 {
 	int			chars_printed;
-	size_t	value;
+	size_t		value;
 	char		*result;
 	size_t		len;
 
@@ -25,8 +25,7 @@ int	print_hex(t_handler *handler, va_list args)
 	if (handler->specifier == POINTER)
 		handler->specifier = HEX_LOWER;
 	result = convert_base(value, HEX_BASE, handler->specifier, UNSIGNED_NUM);
-	len = ft_strlen(result) * check_val_prec(handler->precision,
-											 &result);
+	len = ft_strlen(result) * check_val_prec(handler->precision, &result);
 	chars_printed = 0;
 	chars_printed += print_value(handler, result, len, false);
 	ft_strdel(&result);

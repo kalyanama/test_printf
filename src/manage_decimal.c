@@ -14,7 +14,7 @@
 
 static int	print_signed(t_handler *h, va_list args)
 {
-	ssize_t	value;
+	ssize_t		value;
 	char		*result;
 	size_t		len;
 	int			chars;
@@ -32,7 +32,7 @@ static int	print_signed(t_handler *h, va_list args)
 
 static int	print_unsigned(t_handler *h, va_list args)
 {
-	size_t	value;
+	size_t		value;
 	char		*result;
 	size_t		len;
 	int			chars;
