@@ -6,7 +6,7 @@
 /*   By: mmalanch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/07/25 17:53:24 by mmalanch          #+#    #+#             */
-/*   Updated: 2018/07/25 17:53:26 by mmalanch         ###   ########.fr       */
+/*   Updated: 2018/07/25 18:20:07 by mmalanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	print_width(t_handler *h, size_t value_len)
 	value_len += ((h->specifier == HEX_LOWER || h->specifier == HEX_UPPER)
 				&& h->flags.hash) * 2;
 	h->flags.pad_zero *= !(h->flags.pad_right);
-	while (h->width > value_len)
+	while (h->width > (int)value_len)
 	{
 		ft_putchar((char)(h->flags.pad_zero ? '0' : ' '));
 		chars++;

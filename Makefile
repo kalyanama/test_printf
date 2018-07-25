@@ -1,7 +1,7 @@
 NAME := libftprintf.a
 
 CC := gcc
-CFLAGS = 
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_DIR := src/
 INC_DIR := inc/
@@ -26,6 +26,7 @@ manage_pointer.c\
 manage_percent.c\
 parsers.c\
 printers.c\
+print_value.c\
 utils.c
 
 
