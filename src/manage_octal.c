@@ -24,8 +24,8 @@ int	print_octal(t_handler *handler, va_list args)
 	if (!value && handler->precision)
 		handler->flags.hash = value != 0 && handler->flags.hash;
 	result = convert_base(value, OCTAL_BASE, handler->specifier, UNSIGNED_NUM);
-	len = ft_strlen(result) * check_null_value_and_prec(handler->precision,
-		&result);
+	len = ft_strlen(result) * check_val_prec(handler->precision,
+											 &result);
 	//fresh kostyl
 	if (handler->precision > (int)len)
 		handler->flags.hash = false;

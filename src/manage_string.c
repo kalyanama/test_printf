@@ -87,7 +87,7 @@ char *get_wstr(wchar_t *value, int precision)
 	return (res);
 }
 
-int print_string(t_handler *curr, va_list args, bool non_printable)
+int print_string(t_handler *h, va_list args, bool non_printable)
 {
 	int chars_printed;
 	char *value;
@@ -96,33 +96,33 @@ int print_string(t_handler *curr, va_list args, bool non_printable)
 
 	chars_printed = 0;
 	is_cut = false;
-	if (curr->length == L && (curr->specifier == STRING || curr->specifier == CHAR))
-		value = (curr->specifier == STRING ? get_wstr(va_arg(args, wchar_t *), curr->precision) : get_wchar(va_arg(args, wchar_t)));
-
+	if (h->length == L && (h->specifier == STRING || h->specifier == CHAR))
+		value = (h->specifier == STRING ? get_wstr(va_arg(args, wchar_t *), h->precision)
+										: get_wchar(va_arg(args, wchar_t)));
 	else
 	{
 		value = va_arg(args, char *);
 		value = non_printable ? show_non_printable(value) : value;
 	}
-	if ((value == NULL) && curr->precision)
+	if ((value == NULL) && h->precision)
 	{
-		value = ft_strndup("(null)", curr->precision == -1 ? ft_strlen("(null)"): curr->precision);
+		value = ft_strndup("(null)", h->precision == -1 ? ft_strlen("(null)"): h->precision);
 		is_cut =  true;
 	}
-	if (ft_strequ(value, "\0") && curr->specifier == CHAR)
+	if (ft_strequ(value, "\0") && h->specifier == CHAR)
 		return (int)write(STDOUT_FILENO, "\0", 1);
 	len = value ? ft_strlen(value) : 0;
-	curr->precision *= len != 0;
-	if (curr->precision != -1 && curr->precision < (int) len && !is_cut)
+	h->precision *= len != 0;
+	if (h->precision != -1 && h->precision < (int) len && !is_cut && !(h->specifier == CHAR))
 	{
-		value = ft_strndup(value, curr->precision);
-		len -= len - curr->precision;
+		value = ft_strndup(value, h->precision);
+		len -= len - h->precision;
 		is_cut = true;
 	}
 	else
-		curr->precision = -1;
-	chars_printed +=  print_value(curr, value, len, false);
-	if (is_cut || non_printable || curr->length == L)
+		h->precision = -1;
+	chars_printed +=  print_value(h, value, len, false);
+	if (is_cut || non_printable || h->length == L)
 		ft_strdel(&value);
 	return (chars_printed);
 }

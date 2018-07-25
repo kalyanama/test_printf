@@ -13,7 +13,7 @@
 #include "../inc/ft_printf.h"
 #include "../inc/parsers.h"
 
-static t_handler *init_handler()
+static t_handler	*init_handler(void)
 {
 	t_handler *handler;
 
@@ -26,11 +26,11 @@ static t_handler *init_handler()
 	handler->flags.force_sign = false;
 	handler->flags.pad_right = false;
 	handler->flags.space_flag = false;
-
 	return (handler);
 }
 
-static void parse_to_handler(const char **fmt, t_handler *handler, va_list va_args)
+static void			parse_to_handler(const char **fmt, t_handler *handler,
+	va_list va_args)
 {
 	while ((WIDTH(**fmt) || FLAG(**fmt) || PREC(**fmt) || SIZE(**fmt)) && **fmt)
 	{
@@ -49,15 +49,15 @@ static void parse_to_handler(const char **fmt, t_handler *handler, va_list va_ar
 
 static int			doformat(const char **fmt, va_list ap)
 {
-	t_handler *handler;
-	int chars_printed;
+	t_handler	*handler;
+	int			chars_printed;
 
 	if (!**fmt)
 		return (0);
 	handler = init_handler();
 	parse_to_handler(fmt, handler, ap);
 	chars_printed = print_arg(handler, ap, fmt);
-	ft_memdel((void **) &handler);
+	ft_memdel((void **)&handler);
 	return (chars_printed);
 }
 

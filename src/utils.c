@@ -1,7 +1,7 @@
 
 #include "../inc/printers.h"
 
-size_t get_numlen(size_t usigned_num, short base, bool is_unsigned)
+size_t get_numlen(size_t usigned_num, int base, bool is_unsigned)
 {
 	size_t len;
 	ssize_t signed_num;
@@ -118,7 +118,7 @@ char *convert_base(size_t unsgnd, int base, t_specifier specifier, bool is_unsig
 	a = (char) (specifier == HEX_LOWER ? 'a' : 'A');
 	if (base < 2 || base > 16)
 		return (NULL);
-	len = get_numlen(unsgnd, (short) base, is_unsigned);
+	len = get_numlen(unsgnd, base, is_unsigned);
 	if(!(ret = ft_strnew(len + 1)))
 		return(NULL);
 	sgnd = (ssize_t)unsgnd;
@@ -137,7 +137,7 @@ char *convert_base(size_t unsgnd, int base, t_specifier specifier, bool is_unsig
 	return(ret);
 }
 
-bool check_null_value_and_prec(int prec, char **result)
+bool check_val_prec(int prec, char **result)
 {
 	if (prec == 0 && ft_strequ(*result, ZERO))
 	{
@@ -147,16 +147,12 @@ bool check_null_value_and_prec(int prec, char **result)
 	return true;
 }
 
-
 int print_prefix(t_handler *h, bool neg_sign)
 {
 	if (h->flags.hash)
 	{
 		if (h->specifier == OCTAL)
-		{
-			ft_putchar('0');
-			return (1);
-		}
+			return (int)(write(STDOUT_FILENO, "0", ft_strlen("0")));
 		if (h->specifier == HEX_LOWER || h->specifier == HEX_UPPER)
 		{
 			ft_putchar('0');
@@ -165,18 +161,10 @@ int print_prefix(t_handler *h, bool neg_sign)
 		}
 	}
 	if (h->flags.force_sign && h->specifier == S_DECIMAL)
-	{
-		if (neg_sign)
-			ft_putchar('-');
-		else
-			ft_putchar('+');
-		return (1);
-	}
+		return (int)(neg_sign ? write(STDOUT_FILENO, "-", ft_strlen("-"))
+							  : write(STDOUT_FILENO, "+", ft_strlen("+")));
 	else if (h->flags.space_flag && h->specifier == S_DECIMAL)
-	{
-		ft_putchar(' ');
-		return (1);
-	}
+		return (int)(write(STDOUT_FILENO, " ", ft_strlen(" ")));
 	return (0);
 }
 
@@ -233,7 +221,7 @@ unsigned int count_bits(unsigned int value)
 	return (count);
 }
 
-inline int cmp_len(t_length curr, t_length new)
+int cmp_len(t_length curr, t_length new)
 {
 	return (new - curr);
 }

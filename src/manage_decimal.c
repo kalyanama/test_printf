@@ -23,7 +23,7 @@ static int	print_signed(t_handler *h, va_list args)
 	value = manage_length_signed(va_arg(args, ssize_t), h->length);
 	result = convert_base((size_t)value,
 						DECIMAL_BASE, h->specifier, SIGNED_NUM);
-	len = ft_strlen(result) * check_null_value_and_prec(h->precision, &result);
+	len = ft_strlen(result) * check_val_prec(h->precision, &result);
 	h->flags.force_sign = h->flags.force_sign || value < 0;
 	chars += print_value(h, result, len, value < 0);
 	ft_strdel(&result);
@@ -40,7 +40,7 @@ static int	print_unsigned(t_handler *h, va_list args)
 	chars = 0;
 	value = manage_length_unsigned(va_arg(args, size_t), h->length);
 	result = convert_base(value, DECIMAL_BASE, h->specifier, UNSIGNED_NUM);
-	len = ft_strlen(result) * check_null_value_and_prec(h->precision, &result);
+	len = ft_strlen(result) * check_val_prec(h->precision, &result);
 	chars += print_value(h, result, len, false);
 	ft_strdel(&result);
 	return (chars);

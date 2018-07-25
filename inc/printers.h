@@ -16,6 +16,7 @@
 # include "ft_printf.h"
 # include "utils.h"
 
+# define BINARY_BASE 2
 # define DECIMAL_BASE 10
 # define OCTAL_BASE 8
 # define HEX_BASE 16
@@ -28,7 +29,7 @@ int	print_decimal(t_handler *handler, va_list args, bool is_unsigned);
 int	print_octal(t_handler *handler, va_list args);
 int	print_hex(t_handler *handler, va_list args);
 int	print_char(t_handler *handler, va_list args, char invalid_spec);
-int print_string(t_handler *handler, va_list args, bool non_printable);
+int print_string(t_handler *h, va_list args, bool non_printable);
 int	print_pointer(t_handler *handler, va_list args);
 int	print_percent(t_handler *handler);
 char    *get_wchar(wchar_t value);
