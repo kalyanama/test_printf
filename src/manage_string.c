@@ -106,28 +106,19 @@ int print_string(t_handler *h, va_list args)
 	int		chars_printed;
 	char	*value;
 	bool	is_cut;
-	char 	*to_free;
+	bool    is_null;
 
 	chars_printed = 0;
-	to_free = NULL;
 	if (h->length == L && h->sp == 's')
 		value = get_wstr(va_arg(args, wchar_t *), h->prec);
 	else
 		value = va_arg(args, char *);
 	if (h->sp == 'r')
 		value = show_non_printable(value);
-	if (value == NULL)
-	{
-		value = ft_strdup("(null)");
-		if (!(h->prec < 0 || h->prec >= (int)ft_strlen(value)))
-			to_free = value;
-	}
-	is_cut = precision_cut(value, &value, h->prec);
+	is_cut = precision_cut((is_null = value == NULL) ? "(null)" : value, &value, h->prec);
 	h->prec = -1;
 	chars_printed += print_value(h, value, ft_strlen(value), false);
-	if (to_free)
-		ft_strdel(&to_free);
-	if (is_cut || h->sp == 'r' || h->length == L)
+	if (is_cut || h->sp == 'r' || (h->length == L && !is_null))
 		ft_strdel(&value);
 	return (chars_printed);
 }
