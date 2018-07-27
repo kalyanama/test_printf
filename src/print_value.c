@@ -75,7 +75,7 @@ int	print_value(t_handler *h, char *result, size_t len, bool neg_sign)
 
 	chars_printed = 0;
 	chars_printed += (int)len;
-	if (ft_strchr("duoxXb", h->sp))
+	if (ft_strchr("duoxXbp", h->sp))
 		h->flags.pad_zero *= h->prec == -1;
 	if (h->flags.pad_right)
 	{

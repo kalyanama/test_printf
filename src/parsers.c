@@ -101,13 +101,13 @@ void	parse_length(const char **fmt, t_handler *handler)
 
 void    parse_specifier(const char **fmt, t_handler *handler)
 {
-	if (ft_strchr("DOUCS", **fmt))
+	if (ft_strchr("DOUCSp", **fmt))
 	{
 		handler->length = L;
 		handler->sp = (char)ft_tolower(**fmt);
 	}
 	else if (**fmt == 'i')
-		handler->sp =  'd';
+		handler->sp = 'd';
 	else
 		handler->sp =  **fmt;
 	(*fmt)++;

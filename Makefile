@@ -1,7 +1,7 @@
 NAME := libftprintf.a
 
 CC := gcc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -O3
 
 SRC_DIR := src/
 INC_DIR := inc/
@@ -16,13 +16,9 @@ IFLAGS := -I $(INC_DIR) -I $(LIBFT_INC)
 
 SRC := \
 ft_printf.c\
-manage_binary.c\
-manage_decimal.c\
-manage_octal.c\
+manage_number.c\
 manage_string.c\
 manage_char.c\
-manage_hex.c\
-manage_pointer.c\
 manage_percent.c\
 parsers.c\
 printers.c\

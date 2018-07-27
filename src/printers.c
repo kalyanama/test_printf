@@ -17,23 +17,15 @@ int print_conversion(t_handler *h, va_list args)
 	int ret;
 
 	ret = 0;
-	if (ft_strchr("cC", h->sp) || !ft_strchr("dDioOuUxXcCsSprb%", h->sp))
+	if (ft_strchr("c", h->sp) || !ft_strchr("diouxXcsprb%", h->sp))
 		ret = print_char(h, args);
-	else if (ft_strchr("dDi", h->sp))
-		ret = print_decimal(h, args, SIGNED_NUM);
-	else if (ft_strchr("uU", h->sp))
-		ret = print_decimal(h, args, UNSIGNED_NUM);
-	else if (ft_strchr("oO", h->sp))
-		ret = print_octal(h, args);
-	else if (ft_strchr("xX", h->sp))
-		ret = print_hex(h, args);
-	else if (ft_strchr("sSr", h->sp))
+	else if (h->sp == 'd')
+		ret = print_num_signed(h, args);
+	else if (ft_strchr("buoxXp", h->sp))
+		ret = print_num_unsigned(h, args);
+	else if (h->sp == 's' || h->sp == 'p')
 		ret = print_string(h, args);
-	else if (h->sp == 'p')
-		ret = print_pointer(h, args);
 	else if (h->sp == '%')
 		ret = print_percent(h);
-	else if (h->sp == 'b')
-		ret = print_binary(h, args);
 	return (ret);
 }

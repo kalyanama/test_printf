@@ -17,27 +17,6 @@ size_t			get_numlen(size_t usigned_num, int base, bool is_unsigned)
 	return (len);
 }
 
-void			print_num(size_t unsigned_num, bool is_unsigned)
-{
-	ssize_t signed_num;
-
-	signed_num = (ssize_t)unsigned_num;
-	if (is_unsigned)
-	{
-		if (unsigned_num / 10)
-			print_num(unsigned_num / 10, is_unsigned);
-		ft_putchar((char)(unsigned_num % 10 + '0'));
-	}
-	else
-	{
-//        if (*sign)
-//            signed_num < 0 ? ft_putchar('-') : ft_putchar('+');
-		if (signed_num / 10)
-			print_num((size_t)(signed_num / 10), is_unsigned);
-		ft_putchar((char)(FT_ABS(signed_num % 10) + '0'));
-	}
-}
-
 ssize_t			manage_length_signed(ssize_t val, t_length length)
 {
 	if (length == HH)
