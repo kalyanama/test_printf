@@ -19,7 +19,6 @@ ft_printf.c\
 manage_number.c\
 manage_string.c\
 manage_char.c\
-manage_percent.c\
 parsers.c\
 printers.c\
 print_value.c\

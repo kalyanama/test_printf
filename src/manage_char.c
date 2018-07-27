@@ -65,26 +65,18 @@ char				*get_wchar(wchar_t value)
 int print_char(t_handler *h, va_list args)
 {
 	int		chars_printed;
-	char	value;
+	char	*value;
 
 	chars_printed = 0;
 	if (h->length == L && h->sp == 'c')
 		chars_printed += print_string(h, args);
 	else
 	{
-		value = h->sp == 'c' ? (unsigned char)va_arg(args, int) : (unsigned char) h->sp;
-		if (h->flags.pad_right)
-		{
-			ft_putchar(value);
-			chars_printed++;
-			chars_printed += print_width(h, 1);
-		}
-		else
-		{
-			chars_printed += print_width(h, 1);
-			ft_putchar(value);
-			chars_printed++;
-		}
+		value = ft_strnew(1);
+		value[0] = h->sp == 'c' ? (unsigned char)va_arg(args, int) : (unsigned char) h->sp;
+		h->prec = -1;
+		chars_printed += print_value(h, value, 1, false);
+		ft_strdel(&value);
 	}
 	return (chars_printed);
 }

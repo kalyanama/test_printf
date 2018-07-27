@@ -17,7 +17,7 @@ int print_conversion(t_handler *h, va_list args)
 	int ret;
 
 	ret = 0;
-	if (ft_strchr("c", h->sp) || !ft_strchr("diouxXcsprb%", h->sp))
+	if (h->sp == 'c' || h->sp == '%' || !ft_strchr("diouxXcsprb%", h->sp))
 		ret = print_char(h, args);
 	else if (h->sp == 'd')
 		ret = print_num_signed(h, args);
@@ -25,7 +25,5 @@ int print_conversion(t_handler *h, va_list args)
 		ret = print_num_unsigned(h, args);
 	else if (h->sp == 's' || h->sp == 'p')
 		ret = print_string(h, args);
-	else if (h->sp == '%')
-		ret = print_percent(h);
 	return (ret);
 }

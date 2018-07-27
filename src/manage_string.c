@@ -100,10 +100,9 @@ int print_string(t_handler *h, va_list args)
 		        get_wstr(va_arg(args, wchar_t *), h->prec) :
 		        get_wchar(va_arg(args, wchar_t));
 	else
-	{
 		value = va_arg(args, char *);
-		value = h->sp == 'r' ? show_non_printable(value) : value;
-	}
+	if (h->sp == 'r')
+		value = show_non_printable(value);
 	if ((is_cut = (value == NULL && h->prec)))
 		value = ft_strndup("(null)", h->prec == -1 ?
 			ft_strlen("(null)") : h->prec);

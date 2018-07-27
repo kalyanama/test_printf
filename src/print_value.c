@@ -81,7 +81,7 @@ int	print_value(t_handler *h, char *result, size_t len, bool neg_sign)
 	{
 		chars_printed += print_prefix(h, neg_sign);
 		chars_printed += print_precision(h->prec, len);
-		ft_putstr(result);
+		h->sp == 'c' &&  h->length != L? ft_putchar(result[0]): ft_putstr(result);
 		chars_printed += print_width(h, len);
 	}
 	else
@@ -90,7 +90,7 @@ int	print_value(t_handler *h, char *result, size_t len, bool neg_sign)
 		chars_printed += print_width(h, len);
 		chars_printed += h->flags.pad_zero ? 0 : print_prefix(h, neg_sign);
 		chars_printed += print_precision(h->prec, len);
-		ft_putstr(result);
+		h->sp == 'c' &&  h->length != L? ft_putchar(result[0]): ft_putstr(result);
 	}
 	return (chars_printed);
 }

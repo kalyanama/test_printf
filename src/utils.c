@@ -17,42 +17,25 @@ size_t			get_numlen(size_t usigned_num, int base, bool is_unsigned)
 	return (len);
 }
 
-ssize_t			manage_length_signed(ssize_t val, t_length length)
+void			print_num(size_t unsigned_num, bool is_unsigned)
 {
-	if (length == HH)
-		return ((char)val);
-	else if (length == H)
-		return ((short)val);
-	else if (length == L)
-		return ((long)val);
-	else if (length == LL)
-		return ((long long)val);
-	else if (length == J)
-		return ((intmax_t)val);
-	else if (length == Z)
-		return ((ssize_t)val);
-	else
-		return ((int)val);
-}
+	ssize_t signed_num;
 
-size_t			manage_length_unsigned(size_t val, t_length length)
-{
-	if (length == HH)
-		return ((unsigned char)val);
-	else if (length == H)
-		return ((unsigned short)val);
-	else if (length == L)
-		return ((unsigned long)val);
-	else if (length == LL)
-		return ((unsigned long long)val);
-	else if (length == J)
-		return ((uintmax_t)val);
-	else if (length == Z)
-		return ((size_t)val);
-	else if (length == NONE)
-		return ((unsigned)val);
+	signed_num = (ssize_t)unsigned_num;
+	if (is_unsigned)
+	{
+		if (unsigned_num / 10)
+			print_num(unsigned_num / 10, is_unsigned);
+		ft_putchar((char)(unsigned_num % 10 + '0'));
+	}
 	else
-		return (val);
+	{
+//        if (*sign)
+//            signed_num < 0 ? ft_putchar('-') : ft_putchar('+');
+		if (signed_num / 10)
+			print_num((size_t)(signed_num / 10), is_unsigned);
+		ft_putchar((char)(FT_ABS(signed_num % 10) + '0'));
+	}
 }
 
 //TODO add to libft

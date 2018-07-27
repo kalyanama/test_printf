@@ -107,7 +107,7 @@ void    parse_specifier(const char **fmt, t_handler *handler)
 		handler->sp = (char)ft_tolower(**fmt);
 	}
 	else if (**fmt == 'i')
-		handler->sp = 'd';
+		handler->sp =  'd';
 	else
 		handler->sp =  **fmt;
 	(*fmt)++;
