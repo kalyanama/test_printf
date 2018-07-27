@@ -23,7 +23,7 @@ static char	*get_char(const int code, char *buffer)
 	else if (code == 13)
 		ft_strcpy(buffer, "CR");
 	else if (code == 32)
-		ft_strcpy(buffer, "ESC");
+		ft_strcpy(buffer, "ESC"); //space == ESC
 	else if (code >= 0 && code < 32)
 	{
 		buffer[0] = '^';
@@ -87,7 +87,7 @@ char		*get_wstr(wchar_t *value, int precision)
 	return (res);
 }
 
-int			print_string(t_handler *h, va_list args, bool non_printable)
+int print_string(t_handler *h, va_list args)
 {
 	int		chars_printed;
 	char	*value;
@@ -95,34 +95,33 @@ int			print_string(t_handler *h, va_list args, bool non_printable)
 	bool	is_cut;
 
 	chars_printed = 0;
-	is_cut = false;
-	if (h->length == L && (h->specifier == STRING || h->specifier == CHAR))
-		value = (h->specifier == STRING ?
-			get_wstr(va_arg(args, wchar_t *), h->precision) :
-			get_wchar(va_arg(args, wchar_t)));
+	if (h->length == L && ft_strchr("cs", h->sp))
+		value = h->sp == 's' ?
+		        get_wstr(va_arg(args, wchar_t *), h->prec) :
+		        get_wchar(va_arg(args, wchar_t));
 	else
 	{
 		value = va_arg(args, char *);
-		value = non_printable ? show_non_printable(value) : value;
+		value = h->sp == 'r' ? show_non_printable(value) : value;
 	}
-	if ((is_cut = (value == NULL && h->precision)))
-		value = ft_strndup("(null)", h->precision == -1 ?
-			ft_strlen("(null)") : h->precision);
-	if (ft_strequ(value, "\0") && h->specifier == CHAR)
+	if ((is_cut = (value == NULL && h->prec)))
+		value = ft_strndup("(null)", h->prec == -1 ?
+			ft_strlen("(null)") : h->prec);
+	if (ft_strequ(value, "\0") && h->sp == 'c')
 		return (int)write(STDOUT_FILENO, "\0", 1);
 	len = value ? ft_strlen(value) : 0;
-	h->precision *= len != 0;
-	if (h->precision != -1 && h->precision < (int)len
-		&& !is_cut && !(h->specifier == CHAR))
+	h->prec *= len != 0;
+	if (h->prec != -1 && h->prec < (int)len
+	    && !is_cut && h->sp != 'c')
 	{
-		value = ft_strndup(value, h->precision);
-		len -= len - h->precision;
+		value = ft_strndup(value, h->prec);
+		len -= len - h->prec;
 		is_cut = true;
 	}
 	else
-		h->precision = -1;
+		h->prec = -1;
 	chars_printed += print_value(h, value, len, false);
-	if (is_cut || non_printable || h->length == L)
+	if (is_cut || h->sp == 'r' || h->length == L)
 		ft_strdel(&value);
 	return (chars_printed);
 }

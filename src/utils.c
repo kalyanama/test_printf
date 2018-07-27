@@ -70,7 +70,7 @@ size_t			manage_length_unsigned(size_t val, t_length length)
 		return ((uintmax_t)val);
 	else if (length == Z)
 		return ((size_t)val);
-	else if (length == DEFAULT_LENGTH)
+	else if (length == NONE)
 		return ((unsigned)val);
 	else
 		return (val);
@@ -79,14 +79,14 @@ size_t			manage_length_unsigned(size_t val, t_length length)
 //TODO add to libft
 
 char			*convert_base(size_t unsgnd, int base,
-							t_specifier specifier, bool is_unsigned)
+                              bool upper_case, bool is_unsigned)
 {
 	char	*ret;
 	size_t	len;
 	char	a;
 	ssize_t	sgnd;
 
-	a = (char)(specifier == HEX_LOWER ? 'a' : 'A');
+	a = (char)(upper_case ? 'A' : 'a');
 	if (base < 2 || base > 16)
 		return (NULL);
 	len = get_numlen(unsgnd, base, is_unsigned);

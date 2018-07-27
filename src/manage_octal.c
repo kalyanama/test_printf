@@ -21,12 +21,12 @@ int	print_octal(t_handler *handler, va_list args)
 
 	chars_printed = 0;
 	value = manage_length_unsigned(va_arg(args, size_t), handler->length);
-	if (!value && handler->precision)
+	if (!value && handler->prec)
 		handler->flags.hash = value != 0 && handler->flags.hash;
-	result = convert_base(value, OCTAL_BASE, handler->specifier, UNSIGNED_NUM);
-	len = ft_strlen(result) * check_val_prec(handler->precision, &result);
+	result = convert_base(value, OCTAL_BASE, false, UNSIGNED_NUM);
+	len = ft_strlen(result) * check_val_prec(handler->prec, &result);
 	//fresh kostyl
-	if (handler->precision > (int)len)
+	if (handler->prec > (int)len)
 		handler->flags.hash = false;
 	chars_printed += print_value(handler, result, len, false);
 	ft_strdel(&result);

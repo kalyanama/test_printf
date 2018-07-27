@@ -25,14 +25,8 @@
 
 typedef enum	e_length
 {
-	DEFAULT_LENGTH, HH, H, L, LL, J, Z
+	NONE, HH, H, L, LL, J, Z
 }				t_length;
-
-typedef enum	e_specifier
-{
-	INVALID_SPECIFIER, BINARY, S_DECIMAL, U_DECIMAL, OCTAL,
-	HEX_LOWER, HEX_UPPER, CHAR, STRING, POINTER, PERCENT, NON_PRINTABLE
-}				t_specifier;
 
 struct			s_flags
 {
@@ -43,16 +37,25 @@ struct			s_flags
 	bool hash;
 };
 
+//typedef struct  s_funct_map t_funct_map;
+
 typedef struct	s_handler
 {
 	struct s_flags	flags;
 	int				width;
-	int				precision;
+	int				prec;
 	t_length		length;
-	t_specifier		specifier;
+	char            sp;
 }				t_handler;
 
+//struct s_funct_map
+//{
+//	char spec;
+//	int (*f)(t_handler *handler, va_list args);
+//};
+
 int				ft_printf(const char *format, ...);
-int				print_arg(t_handler *handler, va_list args, const char **fmt);
+int             print_conversion(t_handler *h, va_list args);
+
 
 #endif

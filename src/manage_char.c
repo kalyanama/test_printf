@@ -61,26 +61,26 @@ char				*get_wchar(wchar_t value)
 	return (ft_strrev((char *)ret));
 }
 
-int					print_char(t_handler *curr, va_list args, char invalid_spec)
+int print_char(t_handler *h, va_list args)
 {
 	int		chars_printed;
 	char	value;
 
 	chars_printed = 0;
-	if (curr->length == L && curr->specifier == CHAR && MB_CUR_MAX != 1)
-		chars_printed += print_string(curr, args, false);
+	if (h->length == L && h->sp == 'c')
+		chars_printed += print_string(h, args);
 	else
 	{
-		value = invalid_spec ? invalid_spec : (unsigned char)va_arg(args, int);
-		if (curr->flags.pad_right)
+		value = h->sp == 'c' ? (unsigned char)va_arg(args, int) : (unsigned char) h->sp;
+		if (h->flags.pad_right)
 		{
 			ft_putchar(value);
 			chars_printed++;
-			chars_printed += print_width(curr, 1);
+			chars_printed += print_width(h, 1);
 		}
 		else
 		{
-			chars_printed += print_width(curr, 1);
+			chars_printed += print_width(h, 1);
 			ft_putchar(value);
 			chars_printed++;
 		}

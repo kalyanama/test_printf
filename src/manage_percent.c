@@ -17,7 +17,7 @@ int	print_percent(t_handler *handler)
 	int chars;
 
 	chars = 0;
-	handler->precision = -1;
+	handler->prec = -1;
 	handler->flags.force_sign = false;
 	chars += print_value(handler, "%", ft_strlen("%"), false);
 	return (chars);

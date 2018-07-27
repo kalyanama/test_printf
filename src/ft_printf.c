@@ -12,25 +12,39 @@
 
 #include "../inc/ft_printf.h"
 #include "../inc/parsers.h"
-
+#include "../inc/printers.h"
+//
+//static t_funct_map[] fill_funct_map(void)
+//{
+//	t_funct_map funct_map[] = {
+//		{'c', print_char},
+//		{'s', print_string},
+//		{'},
+//
+//
+//	};
+//
+//	return (funct_map);
+//}
 static t_handler	*init_handler(void)
 {
 	t_handler *handler;
 
 	handler = (t_handler *)malloc(sizeof(t_handler));
 	handler->width = 0;
-	handler->precision = -1;
-	handler->length = DEFAULT_LENGTH;
+	handler->prec = -1;
+	handler->length = NONE;
 	handler->flags.hash = false;
 	handler->flags.pad_zero = false;
 	handler->flags.force_sign = false;
 	handler->flags.pad_right = false;
 	handler->flags.space_flag = false;
+//	handler->funct_map = fill_funct_map();
 	return (handler);
 }
 
-static void			parse_to_handler(const char **fmt, t_handler *handler,
-	va_list va_args)
+static int parse_to_handler(const char **fmt, t_handler *handler,
+                            va_list va_args)
 {
 	while ((WIDTH(**fmt) || FLAG(**fmt) || PREC(**fmt) || SIZE(**fmt)) && **fmt)
 	{
@@ -45,6 +59,9 @@ static void			parse_to_handler(const char **fmt, t_handler *handler,
 	}
 	if (**fmt)
 		parse_specifier(fmt, handler);
+	else
+		return (0);
+	return (1);
 }
 
 static int			doformat(const char **fmt, va_list ap)
@@ -52,11 +69,12 @@ static int			doformat(const char **fmt, va_list ap)
 	t_handler	*handler;
 	int			chars_printed;
 
-	if (!**fmt)
-		return (0);
+//	if (!**fmt)
+//		return (0);
 	handler = init_handler();
-	parse_to_handler(fmt, handler, ap);
-	chars_printed = print_arg(handler, ap, fmt);
+	if (parse_to_handler(fmt, handler, ap) == 0)
+		return (0);
+	chars_printed = print_conversion(handler, ap);
 	ft_memdel((void **)&handler);
 	return (chars_printed);
 }

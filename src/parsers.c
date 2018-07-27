@@ -36,9 +36,9 @@ void	parse_precision(const char **fmt, t_handler *handler, va_list args)
 	if (**fmt == '*')
 	{
 		++*fmt;
-		handler->precision = va_arg(args, int);
-		if (handler->precision < 0)
-			handler->precision = -1;
+		handler->prec = va_arg(args, int);
+		if (handler->prec < 0)
+			handler->prec = -1;
 	}
 	else
 	{
@@ -46,11 +46,11 @@ void	parse_precision(const char **fmt, t_handler *handler, va_list args)
 			++*fmt;
 		if (ft_isdigit(**fmt))
 		{
-			handler->precision = ft_atoi(*fmt);
-			*fmt += ft_numlen(handler->precision) + (handler->precision < 0);
+			handler->prec = ft_atoi(*fmt);
+			*fmt += ft_numlen(handler->prec) + (handler->prec < 0);
 		}
 		else
-			handler->precision = 0;
+			handler->prec = 0;
 	}
 }
 
@@ -96,39 +96,21 @@ void	parse_length(const char **fmt, t_handler *handler)
 		(*fmt)++;
 	}
 	else
-		handler->length = DEFAULT_LENGTH;
+		handler->length = NONE;
 }
 
-void	parse_specifier(const char **fmt, t_handler *handler)
+void    parse_specifier(const char **fmt, t_handler *handler)
 {
 	if (ft_strchr("DOUCS", **fmt))
+	{
 		handler->length = L;
-	if (**fmt == 'd' || **fmt == 'i' || **fmt == 'D')
-		handler->specifier = S_DECIMAL;
-	else if (**fmt == 'u' || **fmt == 'U')
-		handler->specifier = U_DECIMAL;
-	else if (**fmt == 'o' || **fmt == 'O')
-		handler->specifier = OCTAL;
-	else if (**fmt == 'x')
-		handler->specifier = HEX_LOWER;
-	else if (**fmt == 'X')
-		handler->specifier = HEX_UPPER;
-	else if (**fmt == 'c' || **fmt == 'C')
-		handler->specifier = CHAR;
-	else if (**fmt == 's' || **fmt == 'S')
-		handler->specifier = STRING;
-	else if (**fmt == 'p')
-		handler->specifier = POINTER;
-	else if (**fmt == '%')
-		handler->specifier = PERCENT;
-	else if (**fmt == 'b')
-		handler->specifier = BINARY;
-	else if (**fmt == 'r')
-		handler->specifier = NON_PRINTABLE;
-	else if (**fmt)
-		handler->specifier = INVALID_SPECIFIER;
-	if (handler->specifier != INVALID_SPECIFIER)
-		(*fmt)++;
+		handler->sp = (char)ft_tolower(**fmt);
+	}
+	else if (**fmt == 'i')
+		handler->sp =  'd';
+	else
+		handler->sp =  **fmt;
+	(*fmt)++;
 }
 
 // Error (line 72): function parse_length has 26 lines
