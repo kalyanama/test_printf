@@ -13,19 +13,7 @@
 #include "../inc/ft_printf.h"
 #include "../inc/parsers.h"
 #include "../inc/printers.h"
-//
-//static t_funct_map[] fill_funct_map(void)
-//{
-//	t_funct_map funct_map[] = {
-//		{'c', print_char},
-//		{'s', print_string},
-//		{'},
-//
-//
-//	};
-//
-//	return (funct_map);
-//}
+
 static t_handler	*init_handler(void)
 {
 	t_handler *handler;
@@ -39,7 +27,6 @@ static t_handler	*init_handler(void)
 	handler->flags.force_sign = false;
 	handler->flags.pad_right = false;
 	handler->flags.space_flag = false;
-//	handler->funct_map = fill_funct_map();
 	return (handler);
 }
 

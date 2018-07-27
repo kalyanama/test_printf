@@ -35,8 +35,8 @@ char				*get_wchar(wchar_t value)
 	unsigned char	*ret;
 	unsigned int	bytes;
 
-	if (0 == value)
-		return ("\0");
+	if (value == 0)
+		return (ft_strdup("\0"));
 	bytes = wchar_max_bytes(count_bits((unsigned int)value));
 	ret = ft_memalloc(5);
 	if (bytes == 1)
@@ -66,18 +66,20 @@ int print_char(t_handler *h, va_list args)
 {
 	int		chars_printed;
 	char	*value;
+	size_t len;
 
 	chars_printed = 0;
 	if (h->length == L && h->sp == 'c')
-		chars_printed += print_string(h, args);
+		value = get_wchar(va_arg(args, wchar_t));
 	else
 	{
 		value = ft_strnew(1);
-		value[0] = h->sp == 'c' ? (unsigned char)va_arg(args, int) : (unsigned char) h->sp;
-		h->prec = -1;
-		chars_printed += print_value(h, value, 1, false);
-		ft_strdel(&value);
+		value[0] = h->sp == 'c' ? (unsigned char) va_arg(args, int) : (unsigned char) h->sp;
 	}
+	len = ft_strequ(value, "\0") ? 1 : ft_strlen(value);
+	h->prec = -1;
+	chars_printed += print_value(h, value, len, false);
+	ft_strdel(&value);
 	return (chars_printed);
 }
 

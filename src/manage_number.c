@@ -35,7 +35,7 @@ static size_t			length_unsigned(size_t val, t_length length)
 		return ((unsigned)val);
 }
 
-int get_base(char specifier)
+static int get_base(char specifier)
 {
 	if (specifier == 'b')
 		return (2);
