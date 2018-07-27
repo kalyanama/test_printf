@@ -25,8 +25,9 @@ static unsigned int	wchar_max_bytes(unsigned int bits)
 		return (2);
 	else if (bits > 11 && bits <= 16 && MB_CUR_MAX >= 3)
 		return (3);
-	else
+	else if (bits > 16 && MB_CUR_MAX >= 4)
 		return (4);
+	return (1);
 }
 
 char				*get_wchar(wchar_t value)
