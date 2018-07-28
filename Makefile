@@ -21,7 +21,6 @@ manage_string.c\
 manage_char.c\
 parsers.c\
 printers.c\
-print_value.c\
 utils.c
 
 

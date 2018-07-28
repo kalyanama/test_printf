@@ -34,7 +34,7 @@ static char	*get_char(const int code, char *buffer)
 	return (buffer);
 }
 
-char		*show_non_printable(const char *str)
+static char		*show_non_printable(const char *str)
 {
 	char *buf;
 	char *new;
@@ -56,12 +56,11 @@ char		*show_non_printable(const char *str)
 	return (new);
 }
 
-char		*get_wstr(wchar_t *value, int precision)
+static char		*get_wstr(wchar_t *value, int precision)
 {
 	char *res;
 	char *to_free_res;
 	char *wchar;
-	char *to_free_wchar;
 
 	if (!value)
 		return (NULL);
@@ -70,24 +69,24 @@ char		*get_wstr(wchar_t *value, int precision)
 	{
 		to_free_res = res;
 		wchar = get_wchar(*value);
-		to_free_wchar = wchar;
 		if (precision != -1)
 		{
 			precision -= ft_strlen(wchar);
 			if ((precision < 0))
 			{
-				ft_strdel(&to_free_wchar);
+				ft_strdel(&wchar);
 				break ;
 			}
 		}
 		res = ft_strjoin(res, wchar);
-		ft_strclr(wchar);
+//		ft_strclr(wchar);
 		ft_strdel(&to_free_res);
-		ft_strdel(&to_free_wchar);
+		ft_strdel(&wchar);
 		value++;
 	}
 	return (res);
 }
+
 static bool precision_cut(char *src, char **dest, int prec)
 {
 	if (prec < 0 || prec >= (int)ft_strlen(src))
@@ -122,6 +121,3 @@ int print_string(t_handler *h, va_list args)
 		ft_strdel(&value);
 	return (chars_printed);
 }
-
-//Error (line 57): function get_wstr has 29 lines
-//Error (line 90): function print_string has 36 lines

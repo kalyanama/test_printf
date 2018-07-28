@@ -33,9 +33,6 @@ char	*get_wchar(wchar_t value);
 /*
 ** print_value
 */
-int		print_prefix(t_handler *h, bool neg_sign);
 int		print_value(t_handler *h, char *result, size_t len, bool neg_sign);
-int		print_width(t_handler *h, size_t value_len);
-int		print_precision(int prec, size_t value_len);
 
 #endif
