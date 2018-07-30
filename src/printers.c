@@ -92,6 +92,7 @@ int         print_value(t_handler *h, char *result, size_t len, bool neg_sign)
 		chars_printed += print_precision(h->prec, len);
 		h->sp == 'c' &&  ft_strequ(result, "\0")? ft_putchar(result[0]): ft_putstr(result);
 	}
+	ft_strdel(&result);
 	return (chars_printed);
 }
 
@@ -106,7 +107,7 @@ int         print_conversion(t_handler *h, va_list args)
 		ret = print_num_signed(h, args);
 	else if (ft_strchr("buoxXp", h->sp))
 		ret = print_num_unsigned(h, args);
-	else if (h->sp == 's' || h->sp == 'p')
+	else if (h->sp == 's' || h->sp == 'r')
 		ret = print_string(h, args);
 	return (ret);
 }

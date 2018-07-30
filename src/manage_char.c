@@ -58,11 +58,9 @@ char				*get_wchar(wchar_t value)
 
 int print_char(t_handler *h, va_list args)
 {
-	int		chars_printed;
 	char	*value;
 	size_t len;
 
-	chars_printed = 0;
 	if (h->length == L && h->sp == 'c')
 		value = get_wchar(va_arg(args, wchar_t));
 	else
@@ -72,7 +70,5 @@ int print_char(t_handler *h, va_list args)
 	}
 	len = ft_strequ(value, "\0") ? 1 : ft_strlen(value);
 	h->prec = -1;
-	chars_printed += print_value(h, value, len, false);
-	ft_strdel(&value);
-	return (chars_printed);
+	return (print_value(h, value, len, false));
 }

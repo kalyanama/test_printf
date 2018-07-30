@@ -51,30 +51,24 @@ static int get_base(char specifier)
 
 int	print_num_signed(t_handler *h, va_list args)
 {
-	int			chars_printed;
 	char		*result;
 	ssize_t		value;
 	size_t		len;
 
-	chars_printed = 0;
 	value = length_signed(va_arg(args, ssize_t), h->length);
 	result = convert_base((size_t)value,
 						  DECIMAL_BASE, false, SIGNED_NUM);
 	len = ft_strlen(result) * check_val_prec(h->prec, &result);
 	h->flags.force_sign = h->flags.force_sign || value < 0;
-	chars_printed += print_value(h, result, len, value < 0);
-	ft_strdel(&result);
-	return (chars_printed);
+	return (print_value(h, result, len, value < 0));
 }
 
 int print_num_unsigned(t_handler *handler, va_list args)
 {
-	int		chars_printed;
 	char	*result;
 	size_t	value;
 	size_t	len;
 
-	chars_printed = 0;
 	value = length_unsigned(va_arg(args, size_t), handler->length);
 	result = convert_base(value, get_base(handler->sp), handler->sp == 'X', UNSIGNED_NUM);
 	len = ft_strlen(result) * check_val_prec(handler->prec, &result);
@@ -87,8 +81,5 @@ int print_num_unsigned(t_handler *handler, va_list args)
 		handler->flags.hash *= value != 0;
 	if(handler->sp == 'p')
 		handler->flags.hash = true;
-	chars_printed += print_value(handler,result, len, false);
-	if (result)
-		ft_strdel(&result);
-	return (chars_printed);
+	return (print_value(handler,result, len, false));
 }

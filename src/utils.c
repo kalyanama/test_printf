@@ -115,6 +115,19 @@ int				cmp_len(t_length curr, t_length new)
 	return (new - curr);
 }
 
+char	*printf_strjoin(char *s1, char *s2)
+{
+	char *ret;
+
+	if (!(s1 && s2))
+		return (NULL);
+	if ((ret = ft_strnew(ft_strlen(s1) + ft_strlen(s2))))
+		ret = ft_strcat(ft_strcat(ret, s1), s2);
+	ft_strdel(&s1);
+	ft_strdel(&s2);
+	return (ret);
+}
+
 // Error: 42 header not at top of the file
 // Error: 9 functions in the file
 // Error (line 81): function convert_base has 26 lines

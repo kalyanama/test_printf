@@ -30,9 +30,7 @@ int     print_char(t_handler *h, va_list args);
 int     print_string(t_handler *h, va_list args);
 
 char	*get_wchar(wchar_t value);
-/*
-** print_value
-*/
+
 int		print_value(t_handler *h, char *result, size_t len, bool neg_sign);
 
 #endif

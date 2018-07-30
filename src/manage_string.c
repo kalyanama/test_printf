@@ -12,8 +12,10 @@
 
 #include "../inc/printers.h"
 
-static char	*get_char(const int code, char *buffer)
+static char *get_char(const int code)
 {
+	char *buffer;
+	buffer = ft_strnew(3);
 	if (code == 8)
 		ft_strcpy(buffer, "BS");
 	else if (code == 9)
@@ -23,7 +25,7 @@ static char	*get_char(const int code, char *buffer)
 	else if (code == 13)
 		ft_strcpy(buffer, "CR");
 	else if (code == 32)
-		ft_strcpy(buffer, "ESC"); //space == ESC
+		ft_strcpy(buffer, "ESC"); //space == ESC ? space is printable !!!!!!
 	else if (code >= 0 && code < 32)
 	{
 		buffer[0] = '^';
@@ -34,90 +36,83 @@ static char	*get_char(const int code, char *buffer)
 	return (buffer);
 }
 
-static char		*show_non_printable(const char *str)
+static char *show_non_printable(char *str, int prec)
 {
 	char *buf;
-	char *new;
-	char *to_free;
+	char *ret;
+	int i;
 
-	if (!str)
-		return (NULL);
-	new = ft_strnew(0);
-	buf = ft_strnew(3);
-	while (*str)
+	if (str == NULL)
+		return (ft_strdup("(null)"));
+	ret = ft_strnew(0);
+	i = -1;
+	while (str[++i])
 	{
-		to_free = new;
-		new = ft_strjoin(new, get_char(*str, buf));
-		str++;
-		ft_strclr(buf);
-		ft_strdel(&to_free);
+		buf = get_char(str[i]);
+		if (prec != -1 && ((prec -= ft_strlen(buf)) < 0))
+		{
+			ft_strdel(&buf);
+			break;
+		}
+		ret = printf_strjoin(ret, buf);
 	}
-	ft_strdel(&buf);
-	return (new);
+	ft_strdel(&str);
+	return (ret);
 }
 
-static char		*get_wstr(wchar_t *value, int precision)
+static char		*get_wstr(wchar_t *value, int prec)
 {
 	char *res;
-	char *to_free_res;
 	char *wchar;
 
-	if (!value)
-		return (NULL);
+	if (value == NULL)
+		return (ft_strdup("(null)"));
 	res = ft_strnew(0);
 	while (*value)
 	{
-		to_free_res = res;
 		wchar = get_wchar(*value);
-		if (precision != -1)
+		if (prec != -1 && ((prec -= (int) ft_strlen(wchar)) < 0))
 		{
-			precision -= ft_strlen(wchar);
-			if ((precision < 0))
-			{
-				ft_strdel(&wchar);
-				break ;
-			}
+			ft_strdel(&wchar);
+			break;
 		}
-		res = ft_strjoin(res, wchar);
-//		ft_strclr(wchar);
-		ft_strdel(&to_free_res);
-		ft_strdel(&wchar);
+		res = printf_strjoin(res, wchar);
 		value++;
 	}
 	return (res);
 }
 
-static bool precision_cut(char *src, char **dest, int prec)
+char *precision_cut(char *src, int prec)
 {
-	if (prec < 0 || prec >= (int)ft_strlen(src))
+	char *dest;
+
+	if (prec >= 0 && prec < (int)ft_strlen(src))
 	{
-		*dest = src;
-		return (0);
+		dest = ft_strnew((size_t) prec);
+		if (dest)
+			ft_strncpy(dest, src, (size_t) prec);
+		ft_strdel(&src);
+		return (dest);
 	}
-	*dest = ft_strnew((size_t)prec);
-	if (*dest)
-		ft_strncpy(*dest, src, (size_t)prec);
-	return (1);
+	else
+		return (src);
 }
 
 int print_string(t_handler *h, va_list args)
 {
-	int		chars_printed;
 	char	*value;
-	bool	is_cut;
-	bool    is_null;
+	char    *result;
 
-	chars_printed = 0;
 	if (h->length == L && h->sp == 's')
-		value = get_wstr(va_arg(args, wchar_t *), h->prec);
+		result = get_wstr(va_arg(args, wchar_t *), h->prec);
 	else
-		value = va_arg(args, char *);
+		result = ft_strdup((value = va_arg(args, char *)) ? value : "(null)");
 	if (h->sp == 'r')
-		value = show_non_printable(value);
-	is_cut = precision_cut((is_null = value == NULL) ? "(null)" : value, &value, h->prec);
+		result = show_non_printable(result, h->prec);
+	if (h->sp == 's' && h->length != L)
+		result = precision_cut(result, h->prec);
 	h->prec = -1;
-	chars_printed += print_value(h, value, ft_strlen(value), false);
-	if (is_cut || h->sp == 'r' || (h->length == L && !is_null))
-		ft_strdel(&value);
-	return (chars_printed);
+	return (print_value(h, result, ft_strlen(result), false));
 }
+
+//TODO -= strlen is bad
