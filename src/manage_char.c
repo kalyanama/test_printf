@@ -39,7 +39,7 @@ char				*get_wchar(wchar_t value)
 		return (ft_strdup("\0"));
 	bytes = wchar_max_bytes(count_bits((unsigned int)value));
 	ret = ft_memalloc(5);
-	ret[0] = (unsigned char) (bytes == 1 ? value : SIX_BITS(value));
+	ret[0] = (unsigned char)(bytes == 1 ? value : SIX_BITS(value));
 	if (bytes == 2)
 		ret[1] = (unsigned char)((value >> 6) + MASK1);
 	else if (bytes == 3)
@@ -56,17 +56,17 @@ char				*get_wchar(wchar_t value)
 	return (ft_strrev((char *)ret));
 }
 
-int print_char(t_handler *h, va_list args)
+int					print_char(t_handler *h, va_list args)
 {
 	char	*value;
-	size_t len;
+	size_t	len;
 
 	if (h->length == L && h->sp == 'c')
 		value = get_wchar(va_arg(args, wchar_t));
 	else
 	{
 		value = ft_strnew(1);
-		value[0] = h->sp == 'c' ? (unsigned char) va_arg(args, int) : (unsigned char) h->sp;
+		value[0] = (unsigned char)(h->sp == 'c' ? va_arg(args, int) : h->sp);
 	}
 	len = ft_strequ(value, "\0") ? 1 : ft_strlen(value);
 	h->prec = -1;

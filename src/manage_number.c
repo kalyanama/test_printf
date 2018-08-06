@@ -1,4 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_number.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmalanch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/06 14:55:21 by mmalanch          #+#    #+#             */
+/*   Updated: 2018/08/06 14:55:24 by mmalanch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../inc/printers.h"
+
 static ssize_t			length_signed(ssize_t val, t_length length)
 {
 	if (length == HH)
@@ -35,7 +48,7 @@ static size_t			length_unsigned(size_t val, t_length length)
 		return ((unsigned)val);
 }
 
-static int get_base(char specifier)
+static int				get_base(char specifier)
 {
 	if (specifier == 'b')
 		return (2);
@@ -46,10 +59,10 @@ static int get_base(char specifier)
 	else if (specifier == 'x' || specifier == 'X' || specifier == 'p')
 		return (16);
 	else
-		return (-1);
+		return (10);
 }
 
-int	print_num_signed(t_handler *h, va_list args)
+int						print_num_signed(t_handler *h, va_list args)
 {
 	char		*result;
 	ssize_t		value;
@@ -57,29 +70,30 @@ int	print_num_signed(t_handler *h, va_list args)
 
 	value = length_signed(va_arg(args, ssize_t), h->length);
 	result = convert_base((size_t)value,
-						  DECIMAL_BASE, false, SIGNED_NUM);
+						DECIMAL_BASE, false, SIGNED_NUM);
 	len = ft_strlen(result) * check_val_prec(h->prec, &result);
 	h->flags.force_sign = h->flags.force_sign || value < 0;
 	return (print_value(h, result, len, value < 0));
 }
 
-int print_num_unsigned(t_handler *handler, va_list args)
+int						print_num_unsigned(t_handler *handler, va_list args)
 {
 	char	*result;
 	size_t	value;
 	size_t	len;
 
 	value = length_unsigned(va_arg(args, size_t), handler->length);
-	result = convert_base(value, get_base(handler->sp), handler->sp == 'X', UNSIGNED_NUM);
+	result = convert_base(value,
+		get_base(handler->sp), handler->sp == 'X', UNSIGNED_NUM);
 	len = ft_strlen(result) * check_val_prec(handler->prec, &result);
 	if (handler->sp == 'o')
 	{
-			handler->flags.hash *= !(value == 0 && handler->prec);
-			handler->flags.hash *= (handler->prec <= (int)len);
+		handler->flags.hash *= !(value == 0 && handler->prec);
+		handler->flags.hash *= (handler->prec <= (int)len);
 	}
 	if (handler->sp == 'x' || handler->sp == 'X')
 		handler->flags.hash *= value != 0;
-	if(handler->sp == 'p')
+	if (handler->sp == 'p')
 		handler->flags.hash = true;
-	return (print_value(handler,result, len, false));
+	return (print_value(handler, result, len, false));
 }

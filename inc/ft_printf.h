@@ -37,25 +37,16 @@ struct			s_flags
 	bool hash;
 };
 
-//typedef struct  s_funct_map t_funct_map;
-
 typedef struct	s_handler
 {
 	struct s_flags	flags;
 	int				width;
 	int				prec;
 	t_length		length;
-	char            sp;
+	char			sp;
 }				t_handler;
 
-//struct s_funct_map
-//{
-//	char spec;
-//	int (*f)(t_handler *handler, va_list args);
-//};
-
 int				ft_printf(const char *format, ...);
-int             print_conversion(t_handler *h, va_list args);
-
+int				print_conversion(t_handler *h, va_list args);
 
 #endif

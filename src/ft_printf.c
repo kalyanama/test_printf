@@ -30,8 +30,8 @@ static t_handler	*init_handler(void)
 	return (handler);
 }
 
-static int parse_to_handler(const char **fmt, t_handler *handler,
-                            va_list va_args)
+static int			parse_to_handler(const char **fmt, t_handler *handler,
+																va_list va_args)
 {
 	while ((WIDTH(**fmt) || FLAG(**fmt) || PREC(**fmt) || SIZE(**fmt)) && **fmt)
 	{

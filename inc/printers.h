@@ -24,10 +24,10 @@
 # define SIGNED_NUM !UNSIGNED_NUM
 # define ZERO "0"
 
-int 	print_num_unsigned(t_handler *handler, va_list args);
-int 	print_num_signed(t_handler *handler, va_list args);
-int     print_char(t_handler *h, va_list args);
-int     print_string(t_handler *h, va_list args);
+int		print_num_unsigned(t_handler *handler, va_list args);
+int		print_num_signed(t_handler *handler, va_list args);
+int		print_char(t_handler *h, va_list args);
+int		print_string(t_handler *h, va_list args);
 
 char	*get_wchar(wchar_t value);
 
