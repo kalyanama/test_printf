@@ -24,8 +24,8 @@ static char *get_char(const int code)
 		ft_strcpy(buffer, "\\n");
 	else if (code == 13)
 		ft_strcpy(buffer, "CR");
-	else if (code == 32)
-		ft_strcpy(buffer, "ESC"); //space == ESC ? space is printable !!!!!!
+	else if (code == 27)
+		ft_strcpy(buffer, "\\e");
 	else if (code >= 0 && code < 32)
 	{
 		buffer[0] = '^';
@@ -36,7 +36,7 @@ static char *get_char(const int code)
 	return (buffer);
 }
 
-static char *show_non_printable(char *str, int prec)
+static char		*show_non_printable(char *str, int prec)
 {
 	char *buf;
 	char *ret;
@@ -82,7 +82,7 @@ static char		*get_wstr(wchar_t *value, int prec)
 	return (res);
 }
 
-char *precision_cut(char *src, int prec)
+char			*precision_cut(char *src, int prec)
 {
 	char *dest;
 
@@ -98,10 +98,10 @@ char *precision_cut(char *src, int prec)
 		return (src);
 }
 
-int print_string(t_handler *h, va_list args)
+int				print_string(t_handler *h, va_list args)
 {
-	char	*value;
-	char    *result;
+	char *value;
+	char *result;
 
 	if (h->length == L && h->sp == 's')
 		result = get_wstr(va_arg(args, wchar_t *), h->prec);

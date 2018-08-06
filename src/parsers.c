@@ -99,7 +99,7 @@ void	parse_length(const char **fmt, t_handler *handler)
 		handler->length = NONE;
 }
 
-void    parse_specifier(const char **fmt, t_handler *handler)
+void	parse_specifier(const char **fmt, t_handler *handler)
 {
 	if (ft_strchr("DOUCSp", **fmt))
 	{
@@ -107,11 +107,8 @@ void    parse_specifier(const char **fmt, t_handler *handler)
 		handler->sp = (char)ft_tolower(**fmt);
 	}
 	else if (**fmt == 'i')
-		handler->sp =  'd';
+		handler->sp = 'd';
 	else
-		handler->sp =  **fmt;
+		handler->sp = **fmt;
 	(*fmt)++;
 }
-
-// Error (line 72): function parse_length has 26 lines
-// Error (line 102): function parse_specifier has 28 lines

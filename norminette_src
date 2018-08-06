@@ -1,0 +1,35 @@
+Norme: ./norminette_src
+Warning: Not a valid file
+Norme: ./ft_printf.c
+Norme: ./manage_number.c
+Norme: ./manage_char.c
+Norme: ./manage_string.c
+Error: file must end with a single empty line
+Error: global scope bad aligned
+Error (line 15): Space before function name
+Error (line 15): declarations must be followed by one empty line in get_char
+Error (line 39): declarations in show_non_printable are bad aligned
+Error (line 55, col 3): missing space after break
+Error (line 74, col 34): space after cast
+Error (line 77, col 3): missing space after break
+Error (line 91, col 26): space after cast
+Error (line 93, col 32): space after cast
+Error (line 109): 2 assignations
+Error (line 118): C++ comment
+Norme: ./parsers.c
+Error (line 72): function parse_length has 26 lines
+Norme: ./utils.c
+Error: 42 header not at top of the file
+Error: global scope bad aligned
+Error: 8 functions in the file
+Error (line 33): C++ comment
+Error (line 34): C++ comment
+Error (line 41): C++ comment
+Error (line 43): function convert_base has 26 lines
+Error (line 44): must begin only by tabulations
+Error (line 84): C++ comment
+Error (line 96): C++ comment
+Error (line 131): C++ comment
+Error (line 132): C++ comment
+Error (line 133): C++ comment
+Norme: ./printers.c
