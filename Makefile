@@ -25,7 +25,6 @@ utils.c
 
 
 OBJ := $(addprefix $(OBJ_DIR), $(SRC:.c=.o))
-# OBJ += $(wildcard $(LIBFT_OBJ)*.o)
 
 all: $(NAME)
 
