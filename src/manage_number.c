@@ -5,14 +5,14 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mmalanch <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/08/06 14:55:21 by mmalanch          #+#    #+#             */
-/*   Updated: 2018/08/06 14:55:24 by mmalanch         ###   ########.fr       */
+/*   Created: 2018/08/07 13:46:13 by mmalanch          #+#    #+#             */
+/*   Updated: 2018/08/07 13:46:14 by mmalanch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/printers.h"
 
-static ssize_t			length_signed(ssize_t val, t_length length)
+static ssize_t	length_signed(ssize_t val, t_length length)
 {
 	if (length == HH)
 		return ((signed char)val);
@@ -30,7 +30,7 @@ static ssize_t			length_signed(ssize_t val, t_length length)
 		return ((int)val);
 }
 
-static size_t			length_unsigned(size_t val, t_length length)
+static size_t	length_unsigned(size_t val, t_length length)
 {
 	if (length == HH)
 		return ((unsigned char)val);
@@ -48,7 +48,7 @@ static size_t			length_unsigned(size_t val, t_length length)
 		return ((unsigned)val);
 }
 
-static int				get_base(char specifier)
+static int		get_base(char specifier)
 {
 	if (specifier == 'b')
 		return (2);
@@ -59,10 +59,10 @@ static int				get_base(char specifier)
 	else if (specifier == 'x' || specifier == 'X' || specifier == 'p')
 		return (16);
 	else
-		return (10);
+		return (-1);
 }
 
-int						print_num_signed(t_handler *h, va_list args)
+int				print_num_signed(t_handler *h, va_list args)
 {
 	char		*result;
 	ssize_t		value;
@@ -76,15 +76,15 @@ int						print_num_signed(t_handler *h, va_list args)
 	return (print_value(h, result, len, value < 0));
 }
 
-int						print_num_unsigned(t_handler *handler, va_list args)
+int				print_num_unsigned(t_handler *handler, va_list args)
 {
 	char	*result;
 	size_t	value;
 	size_t	len;
 
 	value = length_unsigned(va_arg(args, size_t), handler->length);
-	result = convert_base(value,
-		get_base(handler->sp), handler->sp == 'X', UNSIGNED_NUM);
+	result = convert_base(value, get_base(handler->sp),
+						handler->sp == 'X', UNSIGNED_NUM);
 	len = ft_strlen(result) * check_val_prec(handler->prec, &result);
 	if (handler->sp == 'o')
 	{

@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mmalanch <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2018/08/07 14:47:07 by mmalanch          #+#    #+#             */
+/*   Updated: 2018/08/07 14:47:08 by mmalanch         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../inc/printers.h"
 
@@ -6,42 +17,21 @@ size_t			get_numlen(size_t usigned_num, int base, bool is_unsigned)
 	size_t	len;
 	ssize_t	signed_num;
 
-	signed_num = (ssize_t)usigned_num;
 	len = 1;
 	if (is_unsigned)
 		while (usigned_num /= base)
 			len++;
 	else
+	{
+		signed_num = (ssize_t)usigned_num;
 		while (signed_num /= base)
 			len++;
+	}
 	return (len);
 }
 
-void			print_num(size_t unsigned_num, bool is_unsigned)
-{
-	ssize_t signed_num;
-
-	signed_num = (ssize_t)unsigned_num;
-	if (is_unsigned)
-	{
-		if (unsigned_num / 10)
-			print_num(unsigned_num / 10, is_unsigned);
-		ft_putchar((char)(unsigned_num % 10 + '0'));
-	}
-	else
-	{
-//        if (*sign)
-//            signed_num < 0 ? ft_putchar('-') : ft_putchar('+');
-		if (signed_num / 10)
-			print_num((size_t)(signed_num / 10), is_unsigned);
-		ft_putchar((char)(FT_ABS(signed_num % 10) + '0'));
-	}
-}
-
-//TODO add to libft
-
 char			*convert_base(size_t unsgnd, int base,
-                              bool upper_case, bool is_unsigned)
+							bool upper_case, bool is_unsigned)
 {
 	char	*ret;
 	size_t	len;
@@ -49,8 +39,6 @@ char			*convert_base(size_t unsgnd, int base,
 	ssize_t	sgnd;
 
 	a = (char)(upper_case ? 'A' : 'a');
-	if (base < 2 || base > 16)
-		return (NULL);
 	len = get_numlen(unsgnd, base, is_unsigned);
 	if (!(ret = ft_strnew(len + 1)))
 		return (NULL);
@@ -73,27 +61,13 @@ char			*convert_base(size_t unsgnd, int base,
 
 bool			check_val_prec(int prec, char **result)
 {
-	if (prec == 0 && ft_strequ(*result, ZERO))
+	if (prec == 0 && ft_strequ(*result, "0"))
 	{
 		ft_strdel(result);
 		return (false);
 	}
 	return (true);
 }
-
-//TODO add to libft
-
-char			*ft_strndup(const char *src, size_t size)
-{
-	char	*dest;
-
-	dest = ft_strnew(size);
-	if (dest)
-		ft_strncpy(dest, src, size);
-	return (dest);
-}
-
-//TODO add to libft
 
 unsigned int	count_bits(unsigned int value)
 {
@@ -110,12 +84,11 @@ unsigned int	count_bits(unsigned int value)
 	return (count);
 }
 
-int				cmp_len(t_length curr, t_length new)
-{
-	return (new - curr);
-}
+/*
+** the same as strjoin but no leaks (accepting only malloced)
+*/
 
-char	*printf_strjoin(char *s1, char *s2)
+char			*printf_strjoin(char *s1, char *s2)
 {
 	char *ret;
 
@@ -127,7 +100,3 @@ char	*printf_strjoin(char *s1, char *s2)
 	ft_strdel(&s2);
 	return (ret);
 }
-
-// Error: 42 header not at top of the file
-// Error: 9 functions in the file
-// Error (line 81): function convert_base has 26 lines

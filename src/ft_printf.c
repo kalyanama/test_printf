@@ -31,7 +31,7 @@ static t_handler	*init_handler(void)
 }
 
 static int			parse_to_handler(const char **fmt, t_handler *handler,
-																va_list va_args)
+							va_list va_args)
 {
 	while ((WIDTH(**fmt) || FLAG(**fmt) || PREC(**fmt) || SIZE(**fmt)) && **fmt)
 	{
@@ -51,7 +51,7 @@ static int			parse_to_handler(const char **fmt, t_handler *handler,
 	return (1);
 }
 
-static int			doformat(const char **fmt, va_list ap)
+static int			convert_specifier(const char **fmt, va_list ap)
 {
 	t_handler	*handler;
 	int			chars_printed;
@@ -73,7 +73,7 @@ static int			ft_printf_core(const char *fmt, va_list ap)
 		if (*fmt == START_SPEC)
 		{
 			++fmt;
-			chars_printed += doformat(&fmt, ap);
+			chars_printed += convert_specifier(&fmt, ap);
 		}
 		else
 		{

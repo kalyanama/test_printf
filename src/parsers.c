@@ -73,30 +73,28 @@ void	parse_length(const char **fmt, t_handler *handler)
 {
 	if (**fmt == 'h' && *(*fmt + 1) == 'h')
 	{
-		if (cmp_len(handler->length, HH) > 0)
+		if ((int)(HH - handler->length) > 0)
 			handler->length = HH;
 		*fmt += 2;
 	}
 	else if (**fmt == 'l' && *(*fmt + 1) == 'l')
 	{
-		if (cmp_len(handler->length, LL) > 0)
+		if ((int)(LL - handler->length) > 0)
 			handler->length = LL;
 		*fmt += 2;
 	}
 	else if (SIZE(**fmt))
 	{
-		if (**fmt == 'h' && (cmp_len(handler->length, H) >= 0))
+		if (**fmt == 'h' && (int)(H - handler->length) >= 0)
 			handler->length = handler->length == H ? HH : H;
-		else if (**fmt == 'l' && (cmp_len(handler->length, L) >= 0))
+		else if (**fmt == 'l' && (int)(L - handler->length) >= 0)
 			handler->length = handler->length == L ? LL : L;
-		else if (**fmt == 'j' && (cmp_len(handler->length, J) > 0))
+		else if (**fmt == 'j' && (int)(J - handler->length) > 0)
 			handler->length = J;
-		else if (**fmt == 'z' && (cmp_len(handler->length, Z) > 0))
+		else if (**fmt == 'z' && (int)(Z - handler->length) > 0)
 			handler->length = Z;
 		(*fmt)++;
 	}
-	else
-		handler->length = NONE;
 }
 
 void	parse_specifier(const char **fmt, t_handler *handler)

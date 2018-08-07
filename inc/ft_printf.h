@@ -21,6 +21,7 @@
 # include <stdint.h>
 # include <limits.h>
 # include "colors.h"
+
 # define START_SPEC '%'
 
 typedef enum	e_length
@@ -28,25 +29,24 @@ typedef enum	e_length
 	NONE, HH, H, L, LL, J, Z
 }				t_length;
 
-struct			s_flags
+typedef struct	s_flags
 {
 	bool pad_right;
 	bool pad_zero;
 	bool force_sign;
 	bool space_flag;
 	bool hash;
-};
+}				t_flags;
 
 typedef struct	s_handler
 {
-	struct s_flags	flags;
-	int				width;
-	int				prec;
-	t_length		length;
-	char			sp;
+	t_flags		flags;
+	int			width;
+	int			prec;
+	t_length	length;
+	char		sp;
 }				t_handler;
 
 int				ft_printf(const char *format, ...);
-int				print_conversion(t_handler *h, va_list args);
 
 #endif

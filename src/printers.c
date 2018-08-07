@@ -55,10 +55,10 @@ static int	print_width(t_handler *h, size_t value_len)
 	if (h->prec > (int)value_len && h->sp != 'c')
 		value_len += h->prec - value_len;
 	value_len += (h->flags.force_sign || h->flags.space_flag)
-					&& h->sp == 'd';
+				&& h->sp == 'd';
 	value_len += h->flags.hash && h->sp == 'o';
 	value_len += ((h->sp == 'x' || h->sp == 'X' || h->sp == 'p')
-					&& h->flags.hash) * 2;
+				&& h->flags.hash) * 2;
 	h->flags.pad_zero *= !(h->flags.pad_right);
 	while (h->width > (int)value_len)
 	{
@@ -82,7 +82,7 @@ int			print_value(t_handler *h, char *result, size_t len, bool neg_sign)
 		chars_printed += print_prefix(h, neg_sign);
 		chars_printed += print_precision(h->prec, len);
 		h->sp == 'c' && h->length != L ? ft_putchar(result[0])
-									: ft_putstr(result);
+										: ft_putstr(result);
 		chars_printed += print_width(h, len);
 	}
 	else
@@ -92,7 +92,7 @@ int			print_value(t_handler *h, char *result, size_t len, bool neg_sign)
 		chars_printed += h->flags.pad_zero ? 0 : print_prefix(h, neg_sign);
 		chars_printed += print_precision(h->prec, len);
 		h->sp == 'c' && ft_strequ(result, "\0") ? ft_putchar(result[0])
-										: ft_putstr(result);
+												: ft_putstr(result);
 	}
 	ft_strdel(&result);
 	return (chars_printed);
